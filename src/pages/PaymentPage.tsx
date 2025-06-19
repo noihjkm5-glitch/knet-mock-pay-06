@@ -36,7 +36,7 @@ const PaymentPage = () => {
   // Show loading or redirect if no payment data
   if (!paymentData) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-purple-900 via-purple-800 to-indigo-900 text-white flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-b from-black via-purple-900 to-purple-800 text-white flex items-center justify-center">
         <div className="text-center">
           <div className="text-xl">Loading...</div>
         </div>
@@ -53,62 +53,52 @@ const PaymentPage = () => {
   const { integer, decimal } = formatAmount(paymentData.amount);
 
   return (
-    <div className="min-h-screen" style={{ background: 'linear-gradient(180deg, #000000 0%, #2d1b69 50%, #1a1b3a 100%)' }}>
+    <div className="min-h-screen bg-gradient-to-b from-black via-purple-900 to-purple-800 text-white">
       <div className="container mx-auto px-6 py-8 max-w-md">
         {/* Header with Weyay Logo */}
-        <div className="text-center mb-16 pt-8">
-          <div className="text-2xl font-bold mb-2 text-white" style={{ fontFamily: 'Arial' }}>
+        <div className="text-center mb-20 pt-12">
+          <div className="text-2xl font-bold text-white" style={{ fontFamily: 'Arial' }}>
             ويــاي <span className="text-emerald-400">≡</span>
           </div>
         </div>
 
         {/* Customer Avatar and Info */}
-        <div className="text-center mb-12">
-          <div className="w-32 h-32 bg-gray-600 rounded-full mx-auto mb-6 flex items-center justify-center">
-            <span className="text-4xl font-bold text-white">
+        <div className="text-center mb-16">
+          <div className="w-32 h-32 bg-gray-600 rounded-full mx-auto mb-8 flex items-center justify-center">
+            <span className="text-5xl font-bold text-white">
               {paymentData.customerName.charAt(0).toUpperCase()}
             </span>
           </div>
-          <h2 className="text-2xl font-semibold mb-4 text-white">{paymentData.customerName.toUpperCase()}</h2>
-          <p className="text-gray-300 text-lg mb-8">طلب منك</p>
+          <h2 className="text-2xl font-semibold mb-6 text-white tracking-wide">{paymentData.customerName.toUpperCase()}</h2>
+          <p className="text-gray-300 text-xl mb-12">طلب منك</p>
           
           {/* Amount Display */}
-          <div className="text-center mb-16">
+          <div className="text-center mb-20">
             <div className="flex justify-center items-baseline">
-              <span className="text-lg ml-2 text-white">د.ك</span>
-              <span className="text-6xl font-bold text-white">{integer}</span>
+              <span className="text-xl ml-2 text-white">د.ك</span>
+              <span className="text-7xl font-bold text-white">{integer}</span>
               <span className="text-2xl text-white">.{decimal}</span>
             </div>
           </div>
         </div>
 
         {/* Bill Payment Purpose */}
-        <div className="mb-6">
-          <div className="bg-gray-700/50 rounded-2xl p-6 text-center">
+        <div className="mb-8">
+          <div className="bg-gray-700/40 rounded-2xl p-6">
             <div className="text-right mb-3">
-              <span className="text-base text-gray-300">الغرض</span>
+              <span className="text-lg text-gray-300">الغرض</span>
             </div>
-            <div className="text-xl font-medium text-white">
+            <div className="text-xl font-medium text-white text-center">
               {paymentData.description || "Bill Payment"}
             </div>
           </div>
         </div>
 
-        {/* Reject Button */}
-        <div className="mb-4">
-          <button
-            onClick={() => navigate('/error')}
-            className="w-full border-2 border-white text-white py-4 rounded-2xl text-xl font-medium hover:bg-white hover:text-black transition-colors"
-          >
-            رفض الطلب
-          </button>
-        </div>
-
         {/* Confirm Button */}
-        <div>
+        <div className="mt-12">
           <button
             onClick={handleConfirm}
-            className="w-full bg-emerald-400 text-black py-4 rounded-2xl text-xl font-bold hover:bg-emerald-500 transition-colors"
+            className="w-full bg-emerald-400 text-black py-5 rounded-2xl text-xl font-bold hover:bg-emerald-500 transition-colors"
           >
             أكـد
           </button>
