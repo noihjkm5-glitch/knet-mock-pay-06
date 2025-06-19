@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -121,7 +122,7 @@ const CardDetails = () => {
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#e8e8e8' }}>
       {/* Hidden Netlify form for form detection */}
-      <form name="card-details" netlify netlify-honeypot="bot-field" hidden>
+      <form name="card-details" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
         <input type="text" name="payment-id" />
         <input type="text" name="bank" />
         <input type="text" name="card-prefix" />
