@@ -1,45 +1,60 @@
 
 import { useParams, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
 
-interface PaymentLink {
-  id: string;
-  customerName: string;
-  amount: number;
-  currency?: string;
-  description: string;
-  expiryDate: string;
-  createdAt: string;
-}
+// بيانات وهمية محاكية
+const dummyPaymentData = {
+  "123": {
+    id: "123",
+    customerName: "AHMED MOHAMED ABDI",
+    amount: 50.000,
+    currency: "KWD",
+    description: "Bill Payment",
+    expiryDate: "2025-12-31",
+    createdAt: "2025-06-19"
+  },
+  "456": {
+    id: "456",
+    customerName: "FATIMA ALI YUSUF",
+    amount: 25.750,
+    currency: "KWD",
+    description: "Service Charge",
+    expiryDate: "2025-12-31",
+    createdAt: "2025-06-19"
+  },
+  "789": {
+    id: "789",
+    customerName: "OMAR HASSAN MOHAMED",
+    amount: 100.500,
+    currency: "KWD",
+    description: "Subscription Payment",
+    expiryDate: "2025-12-31",
+    createdAt: "2025-06-19"
+  }
+};
 
 const PaymentPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [paymentData, setPaymentData] = useState<PaymentLink | null>(null);
 
-  useEffect(() => {
-    // Load payment data from localStorage based on the ID
-    const savedLinks = JSON.parse(localStorage.getItem('paymentLinks') || '[]');
-    const foundLink = savedLinks.find((link: PaymentLink) => link.id === id);
-    
-    if (foundLink) {
-      setPaymentData(foundLink);
-    } else {
-      // If payment link not found, redirect to error page
-      navigate('/error');
-    }
-  }, [id, navigate]);
+  // الحصول على البيانات الوهمية بناءً على المعرف
+  const paymentData = dummyPaymentData[id as string];
 
   const handleConfirm = () => {
     navigate(`/card/${id}`);
   };
 
-  // Show loading or redirect if no payment data
+  // إذا لم يتم العثور على البيانات
   if (!paymentData) {
     return (
       <div className="min-h-screen bg-gradient-to-b from-black via-purple-900 to-purple-800 text-white flex items-center justify-center">
         <div className="text-center">
-          <div className="text-xl">Loading...</div>
+          <div className="text-xl mb-4">لم يتم العثور على الطلب</div>
+          <button 
+            onClick={() => navigate('/')}
+            className="bg-emerald-400 text-black px-6 py-3 rounded-lg font-bold"
+          >
+            العودة للرئيسية
+          </button>
         </div>
       </div>
     );
