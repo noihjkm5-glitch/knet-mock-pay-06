@@ -1,5 +1,4 @@
 
-import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 
 const ErrorPage = () => {
@@ -60,31 +59,6 @@ const ErrorPage = () => {
       {/* Call to Action */}
       <div className="text-center mb-8">
         <p className="text-lg font-medium">حمّل ويايي!</p>
-      </div>
-
-      {/* App Store Buttons */}
-      <div className="flex flex-col sm:flex-row gap-4 w-full max-w-md">
-        <Button 
-          onClick={handleGoBack}
-          className="flex-1 bg-black hover:bg-gray-900 text-white py-4 rounded-xl border border-gray-600 flex items-center justify-center gap-2"
-        >
-          <span className="text-sm">تنزيل من</span>
-          <div className="flex flex-col items-start">
-            <span className="text-xs text-gray-300">App Store</span>
-            <span className="text-lg">🍎</span>
-          </div>
-        </Button>
-        
-        <Button 
-          onClick={handleGoHome}
-          className="flex-1 bg-black hover:bg-gray-900 text-white py-4 rounded-xl border border-gray-600 flex items-center justify-center gap-2"
-        >
-          <span className="text-sm">احصل عليه من</span>
-          <div className="flex flex-col items-start">
-            <span className="text-xs text-gray-300">Google Play</span>
-            <span className="text-lg">▶</span>
-          </div>
-        </Button>
       </div>
     </div>
   );
