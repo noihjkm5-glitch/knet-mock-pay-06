@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
@@ -28,18 +27,11 @@ const OTPVerification = () => {
     <div className="min-h-screen bg-gray-100" style={{ backgroundColor: '#f5f5f5' }}>
       {/* NBK Advertisement Banner - Mobile Optimized */}
       <div className="w-full h-20 sm:h-32 bg-gradient-to-r from-blue-400 to-blue-600 relative overflow-hidden">
-        <div className="absolute inset-0 flex items-center justify-between px-4 sm:px-8">
-          <div className="text-white text-right">
-            <div className="text-sm sm:text-lg font-bold mb-1">الجمهورية المصرفية الكويتية</div>
-            <div className="text-xs sm:text-sm">بنك الكويت الوطني</div>
-          </div>
-          <div className="text-white text-right">
-            <div className="text-sm sm:text-xl font-bold">الاحتيال له عدة</div>
-            <div className="text-sm sm:text-xl font-bold">أشكال وأنواع</div>
-            <div className="text-xs sm:text-sm">لا تشارك معلوماتك</div>
-            <div className="text-xs sm:text-sm">المصرفية مع أي أحد</div>
-          </div>
-        </div>
+        <img 
+          src="/lovable-uploads/82cf2b36-e0c3-460b-a6c8-10b36cdad0be.png" 
+          alt="NBK Logo" 
+          className="w-full h-full object-cover"
+        />
       </div>
 
       <div className="container mx-auto px-3 sm:px-4 py-4 sm:py-8 max-w-2xl">
