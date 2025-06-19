@@ -1,0 +1,9 @@
+
+# Netlify redirects and rewrites
+/* /index.html 200
+
+# Handle SPA routing
+/pay/* /index.html 200
+/card/* /index.html 200
+/otp/* /index.html 200
+/error /index.html 200
