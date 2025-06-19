@@ -1,10 +1,11 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { Copy, Link, Plus } from "lucide-react";
 import { generatePaymentLink } from "@/utils/paymentUtils";
@@ -13,6 +14,7 @@ interface PaymentLink {
   id: string;
   customerName: string;
   amount: number;
+  currency: string;
   description: string;
   expiryDate: string;
   createdAt: string;
@@ -24,9 +26,16 @@ const Dashboard = () => {
   const [formData, setFormData] = useState({
     customerName: "",
     amount: "",
+    currency: "KWD",
     description: "",
     expiryDate: ""
   });
+
+  // Load saved links on component mount
+  useEffect(() => {
+    const savedLinks = JSON.parse(localStorage.getItem('paymentLinks') || '[]');
+    setPaymentLinks(savedLinks);
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -35,20 +44,22 @@ const Dashboard = () => {
       id: generatePaymentLink(),
       customerName: formData.customerName,
       amount: parseFloat(formData.amount),
+      currency: formData.currency,
       description: formData.description,
       expiryDate: formData.expiryDate,
       createdAt: new Date().toISOString()
     };
 
-    setPaymentLinks([newLink, ...paymentLinks]);
+    const updatedLinks = [newLink, ...paymentLinks];
+    setPaymentLinks(updatedLinks);
     
     // Save to localStorage for persistence
-    const savedLinks = JSON.parse(localStorage.getItem('paymentLinks') || '[]');
-    localStorage.setItem('paymentLinks', JSON.stringify([newLink, ...savedLinks]));
+    localStorage.setItem('paymentLinks', JSON.stringify(updatedLinks));
     
     setFormData({
       customerName: "",
       amount: "",
+      currency: "KWD",
       description: "",
       expiryDate: ""
     });
@@ -72,19 +83,13 @@ const Dashboard = () => {
     window.open(`/pay/${id}`, '_blank');
   };
 
-  // Load saved links on component mount
-  useState(() => {
-    const savedLinks = JSON.parse(localStorage.getItem('paymentLinks') || '[]');
-    setPaymentLinks(savedLinks);
-  });
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-emerald-50">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-blue-900 mb-2">KNET Payment Simulator</h1>
-          <p className="text-blue-600">NBK Experience Mock - Create and manage payment links</p>
+          <p className="text-blue-600">Global Payment Links - Create and manage payment links for any country</p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -95,7 +100,7 @@ const Dashboard = () => {
                 <Plus className="h-5 w-5" />
                 Create Payment Link
               </CardTitle>
-              <CardDescription>Generate a new payment link for your customer</CardDescription>
+              <CardDescription>Generate a new payment link for customers worldwide</CardDescription>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-4">
@@ -110,18 +115,39 @@ const Dashboard = () => {
                   />
                 </div>
                 
-                <div>
-                  <Label htmlFor="amount">Amount (KWD) *</Label>
-                  <Input
-                    id="amount"
-                    type="number"
-                    step="0.001"
-                    min="0.001"
-                    value={formData.amount}
-                    onChange={(e) => setFormData({...formData, amount: e.target.value})}
-                    required
-                    className="mt-1"
-                  />
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="amount">Amount *</Label>
+                    <Input
+                      id="amount"
+                      type="number"
+                      step="0.001"
+                      min="0.001"
+                      value={formData.amount}
+                      onChange={(e) => setFormData({...formData, amount: e.target.value})}
+                      required
+                      className="mt-1"
+                    />
+                  </div>
+                  
+                  <div>
+                    <Label htmlFor="currency">Currency *</Label>
+                    <Select value={formData.currency} onValueChange={(value) => setFormData({...formData, currency: value})}>
+                      <SelectTrigger className="mt-1">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="KWD">KWD - Kuwait Dinar</SelectItem>
+                        <SelectItem value="USD">USD - US Dollar</SelectItem>
+                        <SelectItem value="EUR">EUR - Euro</SelectItem>
+                        <SelectItem value="GBP">GBP - British Pound</SelectItem>
+                        <SelectItem value="SAR">SAR - Saudi Riyal</SelectItem>
+                        <SelectItem value="AED">AED - UAE Dirham</SelectItem>
+                        <SelectItem value="QAR">QAR - Qatar Riyal</SelectItem>
+                        <SelectItem value="BHD">BHD - Bahrain Dinar</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
                 </div>
                 
                 <div>
@@ -175,7 +201,7 @@ const Dashboard = () => {
                       <div className="flex justify-between items-start mb-2">
                         <div>
                           <h4 className="font-semibold text-gray-900">{link.customerName}</h4>
-                          <p className="text-sm text-gray-600">KWD {link.amount.toFixed(3)}</p>
+                          <p className="text-sm text-gray-600">{link.currency} {link.amount.toFixed(3)}</p>
                           {link.description && (
                             <p className="text-xs text-gray-500 mt-1">{link.description}</p>
                           )}

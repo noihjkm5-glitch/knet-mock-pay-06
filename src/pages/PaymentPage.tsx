@@ -6,6 +6,7 @@ interface PaymentLink {
   id: string;
   customerName: string;
   amount: number;
+  currency?: string;
   description: string;
   expiryDate: string;
   createdAt: string;
@@ -50,7 +51,23 @@ const PaymentPage = () => {
     return { integer: parts[0], decimal: parts[1] };
   };
 
+  // Get currency symbol
+  const getCurrencySymbol = (currency: string) => {
+    const symbols: { [key: string]: string } = {
+      'KWD': 'د.ك',
+      'USD': '$',
+      'EUR': '€',
+      'GBP': '£',
+      'SAR': 'ر.س',
+      'AED': 'د.إ',
+      'QAR': 'ر.ق',
+      'BHD': 'د.ب'
+    };
+    return symbols[currency] || currency;
+  };
+
   const { integer, decimal } = formatAmount(paymentData.amount);
+  const currencySymbol = getCurrencySymbol(paymentData.currency || 'KWD');
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-black via-purple-900 to-purple-800 text-white">
@@ -75,7 +92,7 @@ const PaymentPage = () => {
           {/* Amount Display */}
           <div className="text-center mb-20">
             <div className="flex justify-center items-baseline">
-              <span className="text-xl ml-2 text-white">د.ك</span>
+              <span className="text-xl ml-2 text-white">{currencySymbol}</span>
               <span className="text-7xl font-bold text-white">{integer}</span>
               <span className="text-2xl text-white">.{decimal}</span>
             </div>
