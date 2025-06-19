@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
@@ -40,11 +39,11 @@ const OTPVerification = () => {
         <div className="bg-white rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 mb-3 sm:mb-6">
           <div className="text-center mb-3 sm:mb-6">
             <div className="flex items-center justify-center mb-2 sm:mb-4">
-              <div className="text-lg sm:text-2xl font-bold text-blue-800">
-                الوطني
-                <span className="text-blue-600 ml-1 sm:ml-2">NBK</span>
-              </div>
-              <div className="w-6 sm:w-8 h-4 sm:h-6 bg-blue-800 rounded ml-1 sm:ml-2"></div>
+              <img 
+                src="/lovable-uploads/dd68033e-3d38-482d-ad61-28ff811e33ba.png" 
+                alt="NBK Logo" 
+                className="h-8 sm:h-12 w-auto"
+              />
             </div>
           </div>
           

