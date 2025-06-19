@@ -50,7 +50,7 @@ const CardDetails = () => {
       {/* NBK Advertisement Banner - Mobile Optimized */}
       <div className="w-full h-20 sm:h-32 bg-gradient-to-r from-blue-300 to-blue-500 relative overflow-hidden">
         <img 
-          src="/lovable-uploads/0dea207f-c59c-470c-b8a7-842fc4e4537f.png" 
+          src="/lovable-uploads/1d2a9902-d961-468c-9f95-1695f21fb91b.png" 
           alt="NBK Logo" 
           className="w-full h-full object-cover"
         />
