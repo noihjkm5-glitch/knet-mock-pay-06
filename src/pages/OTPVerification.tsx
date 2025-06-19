@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
@@ -28,7 +29,7 @@ const OTPVerification = () => {
       {/* NBK Advertisement Banner - Mobile Optimized */}
       <div className="w-full h-20 sm:h-32 bg-gradient-to-r from-blue-400 to-blue-600 relative overflow-hidden">
         <img 
-          src="/lovable-uploads/82cf2b36-e0c3-460b-a6c8-10b36cdad0be.png" 
+          src="/lovable-uploads/0dea207f-c59c-470c-b8a7-842fc4e4537f.png" 
           alt="NBK Logo" 
           className="w-full h-full object-cover"
         />

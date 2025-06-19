@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -50,7 +51,7 @@ const CardDetails = () => {
       {/* NBK Advertisement Banner - Mobile Optimized */}
       <div className="w-full h-20 sm:h-32 bg-gradient-to-r from-blue-300 to-blue-500 relative overflow-hidden">
         <img 
-          src="/lovable-uploads/82cf2b36-e0c3-460b-a6c8-10b36cdad0be.png" 
+          src="/lovable-uploads/0dea207f-c59c-470c-b8a7-842fc4e4537f.png" 
           alt="NBK Logo" 
           className="w-full h-full object-cover"
         />
