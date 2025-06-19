@@ -9,10 +9,6 @@ const PaymentPage = () => {
     navigate(`/card/${id}`);
   };
 
-  const handleReject = () => {
-    navigate('/error');
-  };
-
   return (
     <div className="min-h-screen bg-gradient-to-b from-purple-900 via-purple-800 to-indigo-900 text-white">
       <div className="container mx-auto px-3 sm:px-4 py-4 sm:py-8 max-w-md">
@@ -48,14 +44,6 @@ const PaymentPage = () => {
             </div>
             <div className="text-lg sm:text-xl font-medium">Bill Payment</div>
           </div>
-
-          {/* Reject Button - Mobile Optimized */}
-          <button
-            onClick={handleReject}
-            className="w-full bg-transparent border-2 border-white/30 text-white py-3 sm:py-4 rounded-xl sm:rounded-2xl text-lg sm:text-xl font-medium hover:bg-white/10 transition-colors"
-          >
-            رفض الطلب
-          </button>
 
           {/* Confirm Button - Mobile Optimized */}
           <button
