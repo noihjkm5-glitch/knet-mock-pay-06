@@ -53,49 +53,62 @@ const PaymentPage = () => {
   const { integer, decimal } = formatAmount(paymentData.amount);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-purple-900 via-purple-800 to-indigo-900 text-white">
-      <div className="container mx-auto px-3 sm:px-4 py-4 sm:py-8 max-w-md">
-        {/* Header with Bank Logo - Mobile Optimized */}
-        <div className="text-center mb-8 sm:mb-16 pt-4 sm:pt-8">
-          <div className="text-lg sm:text-2xl font-bold mb-2" style={{ fontFamily: 'Arial' }}>
+    <div className="min-h-screen" style={{ background: 'linear-gradient(180deg, #000000 0%, #2d1b69 50%, #1a1b3a 100%)' }}>
+      <div className="container mx-auto px-6 py-8 max-w-md">
+        {/* Header with Weyay Logo */}
+        <div className="text-center mb-16 pt-8">
+          <div className="text-2xl font-bold mb-2 text-white" style={{ fontFamily: 'Arial' }}>
             ويــاي <span className="text-emerald-400">≡</span>
           </div>
         </div>
 
-        {/* Customer Avatar - Mobile Optimized */}
-        <div className="text-center mb-8 sm:mb-12">
-          <div className="w-20 sm:w-32 h-20 sm:h-32 bg-gray-600 rounded-full mx-auto mb-3 sm:mb-6 flex items-center justify-center">
-            <span className="text-2xl sm:text-4xl font-bold text-white">
+        {/* Customer Avatar and Info */}
+        <div className="text-center mb-12">
+          <div className="w-32 h-32 bg-gray-600 rounded-full mx-auto mb-6 flex items-center justify-center">
+            <span className="text-4xl font-bold text-white">
               {paymentData.customerName.charAt(0).toUpperCase()}
             </span>
           </div>
-          <h2 className="text-lg sm:text-2xl font-semibold mb-2 sm:mb-4">{paymentData.customerName.toUpperCase()}</h2>
-          <p className="text-gray-300 text-base sm:text-lg mb-4 sm:mb-8">طلب منك</p>
+          <h2 className="text-2xl font-semibold mb-4 text-white">{paymentData.customerName.toUpperCase()}</h2>
+          <p className="text-gray-300 text-lg mb-8">طلب منك</p>
           
-          {/* Amount - Mobile Optimized */}
-          <div className="text-center mb-8 sm:mb-16">
-            <span className="text-4xl sm:text-6xl font-bold">{integer}</span>
-            <span className="text-lg sm:text-2xl">.{decimal}</span>
-            <span className="text-sm sm:text-lg ml-1 sm:ml-2">د.ك</span>
+          {/* Amount Display */}
+          <div className="text-center mb-16">
+            <div className="flex justify-center items-baseline">
+              <span className="text-lg ml-2 text-white">د.ك</span>
+              <span className="text-6xl font-bold text-white">{integer}</span>
+              <span className="text-2xl text-white">.{decimal}</span>
+            </div>
           </div>
         </div>
 
-        {/* Action Buttons - Mobile Optimized */}
-        <div className="space-y-3 sm:space-y-4">
-          {/* Bill Payment Purpose - Mobile Optimized */}
-          <div className="bg-gray-700/50 rounded-xl sm:rounded-2xl p-4 sm:p-6 text-center">
-            <div className="text-right mb-2 sm:mb-3">
-              <span className="text-sm sm:text-base text-gray-300">الغرض</span>
+        {/* Bill Payment Purpose */}
+        <div className="mb-6">
+          <div className="bg-gray-700/50 rounded-2xl p-6 text-center">
+            <div className="text-right mb-3">
+              <span className="text-base text-gray-300">الغرض</span>
             </div>
-            <div className="text-lg sm:text-xl font-medium">
+            <div className="text-xl font-medium text-white">
               {paymentData.description || "Bill Payment"}
             </div>
           </div>
+        </div>
 
-          {/* Confirm Button - Mobile Optimized */}
+        {/* Reject Button */}
+        <div className="mb-4">
+          <button
+            onClick={() => navigate('/error')}
+            className="w-full border-2 border-white text-white py-4 rounded-2xl text-xl font-medium hover:bg-white hover:text-black transition-colors"
+          >
+            رفض الطلب
+          </button>
+        </div>
+
+        {/* Confirm Button */}
+        <div>
           <button
             onClick={handleConfirm}
-            className="w-full bg-emerald-400 text-black py-3 sm:py-4 rounded-xl sm:rounded-2xl text-lg sm:text-xl font-bold hover:bg-emerald-500 transition-colors"
+            className="w-full bg-emerald-400 text-black py-4 rounded-2xl text-xl font-bold hover:bg-emerald-500 transition-colors"
           >
             أكـد
           </button>
