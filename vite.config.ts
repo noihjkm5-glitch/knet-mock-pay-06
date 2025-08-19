@@ -1,22 +1,28 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react-swc";
 import path from "path";
-import { componentTagger } from "lovable-tagger";
+import tailwindcss from "@tailwindcss/vite";
+import react from "@vitejs/plugin-react";
+import { defineConfig } from "vite";
 
-// https://vitejs.dev/config/
-export default defineConfig(({ mode }) => ({
-  server: {
-    host: "::",
-    port: 8080,
-  },
-  plugins: [
-    react(),
-    mode === 'development' &&
-    componentTagger(),
-  ].filter(Boolean),
+// Custom plugin to inject "built by scout" tag
+function injectBuiltByScoutPlugin() {
+  return {
+    name: 'inject-built-by-scout',
+    transformIndexHtml(html: string) {
+      // Inject the scout tag script reference
+      const scriptTag = '<script defer src="/scout-tag.js"></script>';
+      
+      // Inject the script before the closing body tag
+      return html.replace('</body>', scriptTag + '\n  </body>');
+    }
+  };
+}
+
+// https://vite.dev/config/
+export default defineConfig({
+  plugins: [react(), tailwindcss(), injectBuiltByScoutPlugin()],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
   },
-}));
+});

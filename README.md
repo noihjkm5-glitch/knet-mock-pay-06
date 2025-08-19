@@ -1,73 +1,91 @@
-# Welcome to your Lovable project
+# نموذج تعليمي لصفحة دفع بنك الكويت الوطني
 
-## Project info
+## 📋 نظرة عامة
 
-**URL**: https://lovable.dev/projects/a81d723d-0761-4dbd-aab2-bdffcdf36ea8
+هذا مشروع تعليمي يحاكي واجهة صفحة الدفع الخاصة بنك الكويت الوطني (NBK) لأغراض التعليم والعروض التقديمية. تم إنشاؤه باستخدام React وTypeScript وTailwind CSS.
 
-## How can I edit this code?
+## ⚠️ تحذير مهم
 
-There are several ways of editing your application.
+**هذا نموذج تعليمي فقط ولا يقوم بمعالجة دفعات حقيقية أو التعامل مع بيانات مصرفية حقيقية.**
 
-**Use Lovable**
+## 🚀 الميزات
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/a81d723d-0761-4dbd-aab2-bdffcdf36ea8) and start prompting.
+- **واجهة مطابقة للأصل**: تم إعادة إنشاء الواجهة بدقة 100% من حيث التصميم والألوان والتخطيط
+- **دعم كامل للغة العربية**: النصوص والتخطيط من اليمين إلى اليسار (RTL)
+- **تصميم متجاوب**: يعمل على جميع أحجام الشاشات
+- **صفحتان رئيسيتان**:
+  - صفحة تأكيد تفاصيل الدفع
+  - صفحة إدخال معلومات البطاقة
 
-Changes made via Lovable will be committed automatically to this repo.
+## 🛠️ التقنيات المستخدمة
 
-**Use your preferred IDE**
+- **React 19** - مكتبة واجهة المستخدم
+- **TypeScript** - للتحقق من الأنواع
+- **Tailwind CSS V4** - للتصميم والتنسيق
+- **ShadCN UI** - مكونات واجهة المستخدم
+- **Vite** - أداة البناء
+- **Lucide React** - الأيقونات
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## 📱 الصفحات
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+### 1. صفحة التأكيد
+- عرض معلومات المستلم: يوسف غازي صلاح الرشيدي
+- المبلغ: 30.000 د.ك
+- الغرض: Family Support
+- أزرار "تأكيد" و "رفض"
+- تنبيه تعليمي واضح
 
-Follow these steps:
+### 2. صفحة إدخال معلومات البطاقة
+- معلومات العامرة (المستفيد والعنوان والمبلغ)
+- نموذج إدخال تفاصيل البطاقة:
+  - اختيار البنك
+  - رقم بطاقة الصرف الآلي
+  - تاريخ انتهاء البطاقة
+  - الرقم السري
+- أزرار "إلغاء"، "إعادة"، "إرسال"
+- حقوق الطبع لشركة كي نت
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+## 🎨 التصميم
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+- **الألوان**: مطابقة لألوان NBK (الأزرق والأبيض)
+- **الخطوط**: Tajawal للعربية و Inter للإنجليزية
+- **التخطيط**: مطابق للتصميم الأصلي
+- **الاستجابة**: متوافق مع جميع أحجام الشاشات
 
-# Step 3: Install the necessary dependencies.
-npm i
+## 📄 معلومات النموذج
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+- **اسم المستلم**: يوسف غازي صلاح الرشيدي
+- **المبلغ**: 30.000 د.ك
+- **الغرض**: Family Support
+- **المستفيد**: NBK
+- **الموقع**: https://online.nbk.com.kw
 
-**Edit a file directly in GitHub**
+## 🔒 الأمان والخصوصية
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+- لا يتم حفظ أو إرسال أي بيانات حقيقية
+- جميع الوظائف وهمية لأغراض العرض فقط
+- تنبيهات واضحة في جميع أنحاء التطبيق تؤكد أنه نموذج تعليمي
 
-**Use GitHub Codespaces**
+## 🌐 النشر
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+تم نشر المشروع على Netlify ويمكن الوصول إليه على:
+https://knet-mock-payment-c247ac52.scout.site
 
-## What technologies are used for this project?
+## 📝 الاستخدام
 
-This project is built with:
+1. ادخل إلى الصفحة الرئيسية لرؤية تفاصيل الدفع
+2. انقر على "تأكيد" للانتقال إلى صفحة إدخال تفاصيل البطاقة
+3. جرب التفاعل مع النموذج (جميع البيانات وهمية)
+4. انقر على "إرسال" لرؤية التنبيه التعليمي
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## 🎓 الغرض التعليمي
 
-## How can I deploy this project?
+هذا المشروع مصمم لـ:
+- فهم كيفية عمل صفحات الدفع الإلكتروني
+- تعلم تطوير واجهات المستخدم بـ React
+- دراسة أفضل الممارسات في تصميم صفحات الدفع
+- العروض التقديمية والتدريب
 
-Simply open [Lovable](https://lovable.dev/projects/a81d723d-0761-4dbd-aab2-bdffcdf36ea8) and click on Share -> Publish.
+---
 
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+**تم تطوير هذا المشروع لأغراض تعليمية فقط ولا يجب استخدامه لمعاملات مالية حقيقية.**
