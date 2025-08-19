@@ -94,17 +94,7 @@ export default function NBKPaymentPage() {
           رفض
         </Button>
       </div>
-      
-      {/* تنبيه تعليمي */}
-      <div className="mt-8 p-4 bg-yellow-50 border border-yellow-200 rounded-lg text-center max-w-md">
-        <div className="flex items-center justify-center gap-2 text-yellow-800">
-          <AlertCircle className="w-5 h-5" />
-          <span className="font-semibold">تنبيه: هذا نموذج تعليمي</span>
-        </div>
-        <p className="text-sm text-yellow-700 mt-2">
-          هذه النسخة مخصصة للأغراض التعليمية والعروض التقديمية فقط ولا تقوم بمعالجة دفعات حقيقية
-        </p>
-      </div>
+
     </div>
   );
 
@@ -252,17 +242,7 @@ export default function NBKPaymentPage() {
         <p>جميع الحقوق محفوظة © 2025</p>
         <p className="text-blue-600">شركة الخدمات المصرفية الآلية المشتركة - كي نت</p>
       </div>
-      
-      {/* تنبيه تعليمي */}
-      <div className="mt-4 p-4 bg-yellow-50 border border-yellow-200 rounded-lg text-center max-w-md">
-        <div className="flex items-center justify-center gap-2 text-yellow-800">
-          <AlertCircle className="w-5 h-5" />
-          <span className="font-semibold">تنبيه: هذا نموذج تعليمي</span>
-        </div>
-        <p className="text-sm text-yellow-700 mt-2">
-          هذه النسخة مخصصة للأغراض التعليمية والعروض التقديمية فقط
-        </p>
-      </div>
+
     </div>
   );
 
@@ -352,17 +332,7 @@ export default function NBKPaymentPage() {
           </Button>
         </div>
       </div>
-      
-      {/* تنبيه تعليمي */}
-      <div className="mt-8 p-4 bg-yellow-50 border border-yellow-200 rounded-lg text-center max-w-md">
-        <div className="flex items-center justify-center gap-2 text-yellow-800">
-          <AlertCircle className="w-5 h-5" />
-          <span className="font-semibold">تنبيه: هذا نموذج تعليمي</span>
-        </div>
-        <p className="text-sm text-yellow-700 mt-2">
-          أي رمز من 6 أرقام سيعمل لأغراض العرض
-        </p>
-      </div>
+
     </div>
   );
 
@@ -458,17 +428,7 @@ export default function NBKPaymentPage() {
           </Button>
         </div>
       </div>
-      
-      {/* تنبيه تعليمي */}
-      <div className="mt-8 p-4 bg-green-50 border border-green-200 rounded-lg text-center max-w-md">
-        <div className="flex items-center justify-center gap-2 text-green-800">
-          <AlertCircle className="w-5 h-5" />
-          <span className="font-semibold">تنبيه: هذا نموذج تعليمي</span>
-        </div>
-        <p className="text-sm text-green-700 mt-2">
-          لم يتم تنفيذ أي دفع حقيقي - هذه محاكاة فقط
-        </p>
-      </div>
+
     </div>
   );
 
