@@ -29,7 +29,26 @@ const dummyPaymentData = {
     description: "Subscription Payment",
     expiryDate: "2025-12-31",
     createdAt: "2025-06-19"
+  },
+  "pay_1755575829268_7kths83vaq_04xj": {
+    id: "pay_1755575829268_7kths83vaq_04xj",
+    customerName: "يوسف غازي الرشيدي",
+    amount: 30.000,
+    currency: "KWD",
+    description: "Family Support",
+    expiryDate: "2025-12-31",
+    createdAt: "2025-08-19"
   }
+};
+
+// البيانات الافتراضية للمعاملات غير المعروفة
+const defaultPaymentData = {
+  customerName: "يوسف غازي الرشيدي",
+  amount: 30.000,
+  currency: "KWD",
+  description: "Family Support",
+  expiryDate: "2025-12-31",
+  createdAt: "2025-08-19"
 };
 
 const PaymentPage = () => {
@@ -37,14 +56,17 @@ const PaymentPage = () => {
   const navigate = useNavigate();
 
   // الحصول على البيانات الوهمية بناءً على المعرف
-  const paymentData = dummyPaymentData[id as string];
+  const paymentData = dummyPaymentData[id as string] || {
+    id: id as string,
+    ...defaultPaymentData
+  };
 
   const handleConfirm = () => {
     navigate(`/card/${id}`);
   };
 
-  // إذا لم يتم العثور على البيانات
-  if (!paymentData) {
+  // التحقق من صحة معرف الدفع - فقط للمعرفات القصيرة جداً
+  if (!id || id.length < 3) {
     return (
       <div className="min-h-screen bg-gradient-to-b from-black via-purple-900 to-purple-800 text-white flex items-center justify-center">
         <div className="text-center">
