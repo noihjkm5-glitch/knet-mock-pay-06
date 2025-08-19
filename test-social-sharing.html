@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اختبار صورة المشاركة - روابط الدفع NBK</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            padding: 20px;
+            direction: rtl;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            color: #1e3c72;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            color: #666;
+            font-size: 1.1em;
+        }
+        
+        .test-section {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            border-right: 5px solid #1e3c72;
+        }
+        
+        .test-section h2 {
+            color: #1e3c72;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+        
+        .link-example {
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 15px 0;
+            transition: all 0.3s;
+        }
+        
+        .link-example:hover {
+            border-color: #1e3c72;
+            box-shadow: 0 8px 25px rgba(30, 60, 114, 0.1);
+        }
+        
+        .link-text {
+            color: #1e3c72;
+            font-weight: bold;
+            margin-bottom: 10px;
+            word-break: break-all;
+        }
+        
+        .link-preview {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            border-right: 4px solid #28a745;
+        }
+        
+        .preview-title {
+            font-weight: bold;
+            color: #155724;
+            margin-bottom: 5px;
+        }
+        
+        .preview-desc {
+            color: #155724;
+            font-size: 0.9em;
+            line-height: 1.4;
+        }
+        
+        .og-info {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .og-info h3 {
+            color: #856404;
+            margin-bottom: 15px;
+        }
+        
+        .og-info ul {
+            color: #856404;
+            margin-right: 20px;
+        }
+        
+        .og-info li {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+        
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.9em;
+            margin: 10px 0;
+            overflow-x: auto;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔗 اختبار صور المشاركة</h1>
+            <p>روابط الدفع NBK مع Open Graph Tags</p>
+        </div>
+
+        <div class="og-info">
+            <h3>📋 ما تم إضافته</h3>
+            <ul>
+                <li>Open Graph meta tags ديناميكية تتحدث بناء على بيانات الدفع</li>
+                <li>صورة المشاركة الرسمية لبنك الكويت الوطني</li>
+                <li>عنوان ووصف مخصص لكل رابط دفع</li>
+                <li>دعم مواقع التواصل الاجتماعي (فيسبوك، تويتر، واتساب)</li>
+                <li>تحديث تلقائي للمعلومات عند تغيير بيانات الدفع</li>
+            </ul>
+        </div>
+
+        <div class="test-section">
+            <h2>🎯 أمثلة على الروابط مع المعاينة</h2>
+            
+            <div class="link-example">
+                <div class="link-text">
+                    https://knet-mock-payment-c247ac52.scout.site/?n=أحمد محمد&a=75&p=دفع فاتورة&b=شركة الكهرباء
+                </div>
+                <div class="link-preview">
+                    <div class="preview-title">دفع 75 د.ك - أحمد محمد</div>
+                    <div class="preview-desc">دفع آمن بقيمة 75 د.ك إلى أحمد محمد عبر بنك الكويت الوطني</div>
+                </div>
+            </div>
+
+            <div class="link-example">
+                <div class="link-text">
+                    https://knet-mock-payment-c247ac52.scout.site/?n=فاطمة العلي&a=120&p=شراء منتج&b=متجر الكتروني
+                </div>
+                <div class="link-preview">
+                    <div class="preview-title">دفع 120 د.ك - فاطمة العلي</div>
+                    <div class="preview-desc">دفع آمن بقيمة 120 د.ك إلى فاطمة العلي عبر بنك الكويت الوطني</div>
+                </div>
+            </div>
+
+            <div class="link-example">
+                <div class="link-text">
+                    https://knet-mock-payment-c247ac52.scout.site/?n=خالد الرشيد&a=200&p=تحويل عائلي&b=البنك الأهلي
+                </div>
+                <div class="link-preview">
+                    <div class="preview-title">دفع 200 د.ك - خالد الرشيد</div>
+                    <div class="preview-desc">دفع آمن بقيمة 200 د.ك إلى خالد الرشيد عبر بنك الكويت الوطني</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h2>🔧 التقنيات المستخدمة</h2>
+            
+            <h3>Open Graph Tags:</h3>
+            <div class="code-block">&lt;meta property="og:title" content="دفع 75 د.ك - أحمد محمد" /&gt;
+&lt;meta property="og:description" content="دفع آمن بقيمة 75 د.ك إلى أحمد محمد عبر بنك الكويت الوطني" /&gt;
+&lt;meta property="og:image" content="https://knet-mock-payment-c247ac52.scout.site/nbk-og-logo.png" /&gt;
+&lt;meta property="og:url" content="https://knet-mock-payment-c247ac52.scout.site/?n=أحمد محمد&amp;a=75&amp;p=دفع فاتورة" /&gt;</div>
+
+            <h3>Twitter Cards:</h3>
+            <div class="code-block">&lt;meta name="twitter:card" content="summary_large_image" /&gt;
+&lt;meta name="twitter:title" content="دفع 75 د.ك - أحمد محمد" /&gt;
+&lt;meta name="twitter:description" content="دفع آمن بقيمة 75 د.ك إلى أحمد محمد عبر بنك الكويت الوطني" /&gt;
+&lt;meta name="twitter:image" content="https://knet-mock-payment-c247ac52.scout.site/nbk-og-logo.png" /&gt;</div>
+        </div>
+
+        <div class="test-section">
+            <h2>📱 كيفية اختبار المشاركة</h2>
+            <ul style="margin-right: 20px;">
+                <li>انسخ أي من الروابط أعلاه</li>
+                <li>الصق الرابط في منصة اجتماعية (فيسبوك، تويتر، واتساب)</li>
+                <li>ستظهر معاينة الرابط مع الصورة والعنوان المخصص</li>
+                <li>أو استخدم أدوات اختبار Open Graph:</li>
+                <li style="margin-top: 10px;">
+                    🔗 <strong>فيسبوك:</strong> https://developers.facebook.com/tools/debug/<br>
+                    🔗 <strong>تويتر:</strong> https://cards-dev.twitter.com/validator<br>
+                    🔗 <strong>لينكد إن:</strong> https://www.linkedin.com/post-inspector/
+                </li>
+            </ul>
+        </div>
+
+        <div class="test-section">
+            <h2>✨ الميزات الجديدة</h2>
+            <ul style="margin-right: 20px;">
+                <li>✅ عنوان ديناميكي يتضمن اسم المستلم والمبلغ</li>
+                <li>✅ وصف مفصل للدفعة</li>
+                <li>✅ صورة مشاركة رسمية من NBK</li>
+                <li>✅ تحديث تلقائي عند تغيير البيانات</li>
+                <li>✅ دعم جميع منصات التواصل الاجتماعي</li>
+                <li>✅ معلومات SEO محسنة</li>
+                <li>✅ روابط canonical للفهرسة</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
