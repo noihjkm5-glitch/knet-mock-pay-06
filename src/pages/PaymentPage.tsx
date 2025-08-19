@@ -1,7 +1,7 @@
 
 import { useParams, useNavigate } from "react-router-dom";
 
-// بيانات وهمية محاكية
+// بيانات وهمية محاكية - Updated 2025-08-19
 const dummyPaymentData = {
   "123": {
     id: "123",
