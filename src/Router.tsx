@@ -1,6 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Dashboard from './pages/Dashboard';
 import PaymentPage from './pages/PaymentPage';
+import CardDetails from './pages/CardDetails';
+import OTPVerification from './pages/OTPVerification';
 import NBKPaymentPage from './App';
 
 function AppRouter() {
@@ -12,6 +14,12 @@ function AppRouter() {
         
         {/* Payment page with ID parameter */}
         <Route path="/pay/:id" element={<PaymentPage />} />
+        
+        {/* Card details page with ID parameter */}
+        <Route path="/card/:id" element={<CardDetails />} />
+        
+        {/* OTP verification page with ID parameter */}
+        <Route path="/otp/:id" element={<OTPVerification />} />
         
         {/* NBK Payment Flow */}
         <Route path="/nbk" element={<NBKPaymentPage />} />
