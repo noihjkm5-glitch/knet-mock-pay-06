@@ -15,11 +15,12 @@ const CardDetails = () => {
   const navigate = useNavigate();
   
   const queryParams = new URLSearchParams(window.location.search);
+    const queryParams = new URLSearchParams(window.location.search);
   const currentPayment = {
-    customerName: queryParams.get('n') || defaultPaymentData.customerName,
-    amount: parseFloat(queryParams.get('a') || String(defaultPaymentData.amount)),
-    currency: queryParams.get('c') || defaultPaymentData.currency,
-    description: queryParams.get('p') || defaultPaymentData.description
+    customerName: queryParams.get('n') || (typeof defaultPaymentData !== 'undefined' ? defaultPaymentData.customerName : "يوسف غازي الرشيدي"),
+    amount: parseFloat(queryParams.get('a') || (typeof defaultPaymentData !== 'undefined' ? String(defaultPaymentData.amount) : "30.000")),
+    currency: queryParams.get('c') || (typeof defaultPaymentData !== 'undefined' ? defaultPaymentData.currency : "KWD"),
+    description: queryParams.get('p') || (typeof defaultPaymentData !== 'undefined' ? defaultPaymentData.description : "Family Support")
   };
   
   const [formData, setFormData] = useState({

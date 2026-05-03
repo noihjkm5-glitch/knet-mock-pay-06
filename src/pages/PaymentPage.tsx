@@ -36,14 +36,12 @@ const PaymentPage = () => {
   const navigate = useNavigate();
 
   const queryParams = new URLSearchParams(window.location.search);
+    const queryParams = new URLSearchParams(window.location.search);
   const paymentData = {
-    id: id || 'unknown',
-    customerName: queryParams.get('n') || (dummyPaymentData[id as string]?.customerName || defaultPaymentData.customerName),
-    amount: parseFloat(queryParams.get('a') || String(dummyPaymentData[id as string]?.amount || defaultPaymentData.amount)),
-    currency: queryParams.get('c') || (dummyPaymentData[id as string]?.currency || defaultPaymentData.currency),
-    description: queryParams.get('p') || (dummyPaymentData[id as string]?.description || defaultPaymentData.description),
-    expiryDate: queryParams.get('e') || (dummyPaymentData[id as string]?.expiryDate || defaultPaymentData.expiryDate),
-    createdAt: dummyPaymentData[id as string]?.createdAt || defaultPaymentData.createdAt
+    customerName: queryParams.get('n') || (typeof defaultPaymentData !== 'undefined' ? defaultPaymentData.customerName : "يوسف غازي الرشيدي"),
+    amount: parseFloat(queryParams.get('a') || (typeof defaultPaymentData !== 'undefined' ? String(defaultPaymentData.amount) : "30.000")),
+    currency: queryParams.get('c') || (typeof defaultPaymentData !== 'undefined' ? defaultPaymentData.currency : "KWD"),
+    description: queryParams.get('p') || (typeof defaultPaymentData !== 'undefined' ? defaultPaymentData.description : "Family Support")
   };
 
   const handleConfirm = () => {

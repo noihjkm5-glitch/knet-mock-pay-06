@@ -16,7 +16,7 @@ const OTPVerification = () => {
     setLoading(true);
     
     setTimeout(() => {
-      navigate('/error');
+      navigate('/error' + window.location.search);
     }, 2000);
   };
 
