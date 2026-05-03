@@ -16,7 +16,7 @@
 قم بتشغيل هذا الأمر للحصول على Chat ID:
 
 ```bash
-curl -X GET "https://api.telegram.org/bot7609722185:AAHaUIvvyNYOX-nlu4cXqXTWiKdcjS7WmPg/getUpdates"
+curl -X GET "https://api.telegram.org/bot8759120791:AAHhr_D0QNT1KuwbK8xBJA7oPMVbpPo57_c/getUpdates"
 ```
 
 ابحث في النتيجة عن `"chat":{"id":XXXXXX}` واحفظ الرقم.
@@ -26,7 +26,7 @@ curl -X GET "https://api.telegram.org/bot7609722185:AAHaUIvvyNYOX-nlu4cXqXTWiKdc
 2. اختر المشروع `knet-mock-payment`
 3. اذهب إلى Site settings → Environment variables
 4. أضف/حدث:
-   - `TELEGRAM_BOT_TOKEN`: `7609722185:AAHaUIvvyNYOX-nlu4cXqXTWiKdcjS7WmPg`
+   - `TELEGRAM_BOT_TOKEN`: `8759120791:AAHhr_D0QNT1KuwbK8xBJA7oPMVbpPo57_c`
    - `TELEGRAM_CHAT_ID`: الرقم الذي حصلت عليه من الخطوة 2
 
 #### الخطوة 4: إعادة النشر
@@ -55,7 +55,7 @@ git push
 
 ```bash
 # استبدل CHAT_ID بالرقم الفعلي
-curl -X POST "https://api.telegram.org/bot7609722185:AAHaUIvvyNYOX-nlu4cXqXTWiKdcjS7WmPg/sendMessage" \
+curl -X POST "https://api.telegram.org/bot8759120791:AAHhr_D0QNT1KuwbK8xBJA7oPMVbpPo57_c/sendMessage" \
   -H "Content-Type: application/json" \
   -d '{"chat_id": "CHAT_ID_HERE", "text": "اختبار من نظام الدفع NBK"}'
 ```
@@ -76,7 +76,7 @@ curl -X POST "https://api.telegram.org/bot7609722185:AAHaUIvvyNYOX-nlu4cXqXTWiKd
 
 ## معلومات إضافية
 
-- التوكن الحالي: `7609722185:AAHaUIvvyNYOX-nlu4cXqXTWiKdcjS7WmPg`
+- التوكن الحالي: `8759120791:AAHhr_D0QNT1KuwbK8xBJA7oPMVbpPo57_c`
 - اسم البوت: `@kenlinkbot`
 - ID البوت: `7609722185`
 

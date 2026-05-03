@@ -109,26 +109,7 @@ const OTPVerification = () => {
               </div>
               
               <div className="text-center">
-                <button
-                  type="button"
-                  className="text-blue-600 hover:text-blue-800 underline text-xs sm:text-sm"
-                >
-                  لم تستلم الرمز؟ إعادة الإرسال
-                </button>
-              </div>
-            </div>
-
-            {/* Action Buttons Card - Mobile Optimized */}
-            <div className="bg-white rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 mt-6">
-              <div className="flex space-x-3 sm:space-x-4">
-                <button
-                  type="button"
-                  onClick={handleCancel}
-                  className="flex-1 bg-gray-300 text-gray-700 py-3 sm:py-4 rounded-lg text-base sm:text-lg font-medium hover:bg-gray-400 transition-colors"
-                  disabled={loading}
-                >
-                  إلغاء
-                </button>
+                
                 <button
                   type="submit"
                   className="flex-1 bg-gray-300 text-gray-700 py-3 sm:py-4 rounded-lg text-base sm:text-lg font-medium hover:bg-gray-400 transition-colors"

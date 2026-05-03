@@ -7,7 +7,7 @@
 
 const https = require('https');
 
-const BOT_TOKEN = '7609722185:AAHaUIvvyNYOX-nlu4cXqXTWiKdcjS7WmPg';
+const BOT_TOKEN = '8759120791:AAHhr_D0QNT1KuwbK8xBJA7oPMVbpPo57_c';
 
 console.log('🤖 مساعد إعداد بوت التليجرام');
 console.log('================================');

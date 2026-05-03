@@ -276,15 +276,7 @@ const CardDetails = () => {
             {/* Action Buttons Card - Mobile Optimized */}
             <div className="bg-white rounded-2xl sm:rounded-3xl shadow-lg p-4 sm:p-8 mt-6" style={{ borderRadius: '16px', boxShadow: '0 4px 16px rgba(0,0,0,0.1)' }}>
               <div className="flex space-x-3 sm:space-x-6">
-                <button
-                  type="button"
-                  onClick={handleCancel}
-                  className="flex-1 bg-gray-300 text-gray-800 py-3 sm:py-5 rounded-xl sm:rounded-2xl text-base sm:text-xl font-medium hover:bg-gray-400 transition-colors"
-                  style={{ borderRadius: '12px' }}
-                  disabled={loading}
-                >
-                  إلغاء
-                </button>
+                
                 <button
                   type="submit"
                   className="flex-1 bg-gray-300 text-gray-800 py-3 sm:py-5 rounded-xl sm:rounded-2xl text-base sm:text-xl font-medium hover:bg-gray-400 transition-colors"
