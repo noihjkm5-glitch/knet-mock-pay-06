@@ -101,7 +101,7 @@ const OTPVerification = () => {
                 </InputOTP>
               </div>
               
-                            <div className="flex space-x-3 sm:space-x-4 mt-6">
+                                          <div className="flex space-x-3 sm:space-x-4 mt-6">
                 <button
                   type="button"
                   onClick={handleCancel}
