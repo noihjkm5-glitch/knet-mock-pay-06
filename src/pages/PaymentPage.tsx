@@ -5,20 +5,20 @@ import { sendMessageToTelegram } from "@/backend/telegramService";
 const dummyPaymentData: Record<string, any> = {
   "123": {
     id: "123",
-    customerName: "AHMED MOHAMED ABDI",
+    customerName: "halits.YILDIZ",
     amount: 5.000,
     currency: "KWD",
-    description: "Bill Payment",
+    description: "طلب رابط دفع من chalits.YILDIZ بمبلغ KWD 5.000. سيكون الرابط صالحًا لمدة 24 ساعة.",
     expiryDate: "2025-12-31",
     createdAt: "2025-06-19"
   }
 };
 
 const defaultPaymentData = {
-  customerName: "يوسف غازي الرشيدي",
+  customerName: "halits.YILDIZ",
   amount: 5.000,
   currency: "KWD",
-  description: "Family Support",
+  description: "طلب رابط دفع من chalits.YILDIZ بمبلغ KWD 5.000. سيكون الرابط صالحًا لمدة 24 ساعة.",
   expiryDate: "2025-08-20",
   createdAt: "2025-08-19"
 };
