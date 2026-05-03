@@ -17,11 +17,12 @@ const CardDetails = () => {
   const queryParams = new URLSearchParams(window.location.search);
     const queryParams = new URLSearchParams(window.location.search);
     const queryParams = new URLSearchParams(window.location.search);
+    const queryParams = new URLSearchParams(window.location.search);
   const currentPayment = {
-    customerName: queryParams.get('n') || "{paymentData.customerName}",
-    amount: queryParams.get('a') || "{paymentData.amount}",
+    customerName: queryParams.get('n') || "{paymentData.customerName if typeof paymentData !== 'undefined' else currentPayment.customerName}",
+    amount: queryParams.get('a') || "{paymentData.amount if typeof paymentData !== 'undefined' else currentPayment.amount}",
     currency: queryParams.get('c') || "د.ك",
-    description: queryParams.get('p') || "{paymentData.description}"
+    description: queryParams.get('p') || "{paymentData.description if typeof paymentData !== 'undefined' else currentPayment.description}"
   };
   
   const [formData, setFormData] = useState({

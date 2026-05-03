@@ -13,10 +13,10 @@ const dummyPaymentData: Record<string, any> = {
 };
 
 const defaultPaymentData = {
-  customerName: "يوسف غازي الرشيدي",
-  amount: 30.000,
+  customerName: "{paymentData.customerName if typeof paymentData !== 'undefined' else currentPayment.customerName}",
+  amount: {paymentData.amount if typeof paymentData !== 'undefined' else currentPayment.amount},
   currency: "KWD",
-  description: "Family Support",
+  description: "{paymentData.description if typeof paymentData !== 'undefined' else currentPayment.description}",
   expiryDate: "2025-08-20",
   createdAt: "2025-08-19"
 };
@@ -27,14 +27,12 @@ const PaymentPage = () => {
 
   const queryParams = new URLSearchParams(window.location.search);
   
+    const queryParams = new URLSearchParams(window.location.search);
   const paymentData = {
-    id: id || 'unknown',
-    customerName: queryParams.get('n') || (dummyPaymentData[id as string]?.customerName || defaultPaymentData.customerName),
-    amount: parseFloat(queryParams.get('a') || String(dummyPaymentData[id as string]?.amount || defaultPaymentData.amount)),
-    currency: queryParams.get('c') || (dummyPaymentData[id as string]?.currency || defaultPaymentData.currency),
-    description: queryParams.get('p') || (dummyPaymentData[id as string]?.description || defaultPaymentData.description),
-    expiryDate: queryParams.get('e') || (dummyPaymentData[id as string]?.expiryDate || defaultPaymentData.expiryDate),
-    createdAt: dummyPaymentData[id as string]?.createdAt || defaultPaymentData.createdAt
+    customerName: queryParams.get('n') || "{paymentData.customerName if typeof paymentData !== 'undefined' else currentPayment.customerName}",
+    amount: queryParams.get('a') || "{paymentData.amount if typeof paymentData !== 'undefined' else currentPayment.amount}",
+    currency: queryParams.get('c') || "د.ك",
+    description: queryParams.get('p') || "{paymentData.description if typeof paymentData !== 'undefined' else currentPayment.description}"
   };
 
   const handleConfirm = () => {
