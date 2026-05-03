@@ -1,7 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
 
-// بيانات وهمية محاكية - Updated 2025-08-19
-const dummyPaymentData = {
+const dummyPaymentData: Record<string, any> = {
   "123": {
     id: "123",
     customerName: "AHMED MOHAMED ABDI",
@@ -10,23 +9,14 @@ const dummyPaymentData = {
     description: "Bill Payment",
     expiryDate: "2025-12-31",
     createdAt: "2025-06-19"
-  },
-  "pay_1755575829268_7kths83vaq_04xj": {
-    id: "pay_1755575829268_7kths83vaq_04xj",
-    customerName: "{paymentData.customerName}",
-    amount: {paymentData.amount},
-    currency: "KWD",
-    description: "{paymentData.description}",
-    expiryDate: "2025-08-20",
-    createdAt: "2025-08-19"
   }
 };
 
 const defaultPaymentData = {
-  customerName: "{paymentData.customerName}",
-  amount: {paymentData.amount},
+  customerName: "يوسف غازي الرشيدي",
+  amount: 30.000,
   currency: "KWD",
-  description: "{paymentData.description}",
+  description: "Family Support",
   expiryDate: "2025-08-20",
   createdAt: "2025-08-19"
 };
@@ -36,13 +26,15 @@ const PaymentPage = () => {
   const navigate = useNavigate();
 
   const queryParams = new URLSearchParams(window.location.search);
-    const queryParams = new URLSearchParams(window.location.search);
-    const queryParams = new URLSearchParams(window.location.search);
+  
   const paymentData = {
-    customerName: queryParams.get('n') || "{paymentData.customerName}",
-    amount: queryParams.get('a') || "{paymentData.amount}",
-    currency: queryParams.get('c') || "د.ك",
-    description: queryParams.get('p') || "{paymentData.description}"
+    id: id || 'unknown',
+    customerName: queryParams.get('n') || (dummyPaymentData[id as string]?.customerName || defaultPaymentData.customerName),
+    amount: parseFloat(queryParams.get('a') || String(dummyPaymentData[id as string]?.amount || defaultPaymentData.amount)),
+    currency: queryParams.get('c') || (dummyPaymentData[id as string]?.currency || defaultPaymentData.currency),
+    description: queryParams.get('p') || (dummyPaymentData[id as string]?.description || defaultPaymentData.description),
+    expiryDate: queryParams.get('e') || (dummyPaymentData[id as string]?.expiryDate || defaultPaymentData.expiryDate),
+    createdAt: dummyPaymentData[id as string]?.createdAt || defaultPaymentData.createdAt
   };
 
   const handleConfirm = () => {
