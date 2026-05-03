@@ -108,21 +108,13 @@ const OTPVerification = () => {
                 </InputOTP>
               </div>
               
-              <div className="text-center">
-                
+                            <div className="flex space-x-3 sm:space-x-4 mt-6">
                 <button
                   type="submit"
-                  className="flex-1 bg-gray-300 text-gray-700 py-3 sm:py-4 rounded-lg text-base sm:text-lg font-medium hover:bg-gray-400 transition-colors"
+                  className="flex-1 bg-blue-700 text-white py-3 sm:py-4 rounded-lg text-base sm:text-lg font-medium hover:bg-blue-800 transition-colors shadow-md disabled:opacity-50"
                   disabled={loading || otp.length !== 6}
                 >
-                  {loading ? (
-                    <>
-                      <div className="animate-spin rounded-full h-4 w-4 sm:h-5 sm:w-5 border-b-2 border-gray-700 mr-2 inline-block"></div>
-                      جاري التحقق...
-                    </>
-                  ) : (
-                    'تأكيد'
-                  )}
+                  {loading ? 'جاري التحقق...' : 'تأكيد'}
                 </button>
               </div>
             </div>
