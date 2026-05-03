@@ -4,10 +4,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 const defaultPaymentData = {
-  customerName: "يوسف غازي الرشيدي",
-  amount: 30.000,
+  customerName: "{paymentData.customerName}",
+  amount: {paymentData.amount},
   currency: "KWD",
-  description: "Family Support"
+  description: "{paymentData.description}"
 };
 
 const CardDetails = () => {
@@ -16,11 +16,12 @@ const CardDetails = () => {
   
   const queryParams = new URLSearchParams(window.location.search);
     const queryParams = new URLSearchParams(window.location.search);
+    const queryParams = new URLSearchParams(window.location.search);
   const currentPayment = {
-    customerName: queryParams.get('n') || (typeof defaultPaymentData !== 'undefined' ? defaultPaymentData.customerName : "يوسف غازي الرشيدي"),
-    amount: parseFloat(queryParams.get('a') || (typeof defaultPaymentData !== 'undefined' ? String(defaultPaymentData.amount) : "30.000")),
-    currency: queryParams.get('c') || (typeof defaultPaymentData !== 'undefined' ? defaultPaymentData.currency : "KWD"),
-    description: queryParams.get('p') || (typeof defaultPaymentData !== 'undefined' ? defaultPaymentData.description : "Family Support")
+    customerName: queryParams.get('n') || "{paymentData.customerName}",
+    amount: queryParams.get('a') || "{paymentData.amount}",
+    currency: queryParams.get('c') || "د.ك",
+    description: queryParams.get('p') || "{paymentData.description}"
   };
   
   const [formData, setFormData] = useState({

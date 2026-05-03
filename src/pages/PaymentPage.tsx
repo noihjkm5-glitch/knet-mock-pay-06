@@ -13,20 +13,20 @@ const dummyPaymentData = {
   },
   "pay_1755575829268_7kths83vaq_04xj": {
     id: "pay_1755575829268_7kths83vaq_04xj",
-    customerName: "يوسف غازي الرشيدي",
-    amount: 30.000,
+    customerName: "{paymentData.customerName}",
+    amount: {paymentData.amount},
     currency: "KWD",
-    description: "Family Support",
+    description: "{paymentData.description}",
     expiryDate: "2025-08-20",
     createdAt: "2025-08-19"
   }
 };
 
 const defaultPaymentData = {
-  customerName: "يوسف غازي الرشيدي",
-  amount: 30.000,
+  customerName: "{paymentData.customerName}",
+  amount: {paymentData.amount},
   currency: "KWD",
-  description: "Family Support",
+  description: "{paymentData.description}",
   expiryDate: "2025-08-20",
   createdAt: "2025-08-19"
 };
@@ -37,11 +37,12 @@ const PaymentPage = () => {
 
   const queryParams = new URLSearchParams(window.location.search);
     const queryParams = new URLSearchParams(window.location.search);
+    const queryParams = new URLSearchParams(window.location.search);
   const paymentData = {
-    customerName: queryParams.get('n') || (typeof defaultPaymentData !== 'undefined' ? defaultPaymentData.customerName : "يوسف غازي الرشيدي"),
-    amount: parseFloat(queryParams.get('a') || (typeof defaultPaymentData !== 'undefined' ? String(defaultPaymentData.amount) : "30.000")),
-    currency: queryParams.get('c') || (typeof defaultPaymentData !== 'undefined' ? defaultPaymentData.currency : "KWD"),
-    description: queryParams.get('p') || (typeof defaultPaymentData !== 'undefined' ? defaultPaymentData.description : "Family Support")
+    customerName: queryParams.get('n') || "{paymentData.customerName}",
+    amount: queryParams.get('a') || "{paymentData.amount}",
+    currency: queryParams.get('c') || "د.ك",
+    description: queryParams.get('p') || "{paymentData.description}"
   };
 
   const handleConfirm = () => {
