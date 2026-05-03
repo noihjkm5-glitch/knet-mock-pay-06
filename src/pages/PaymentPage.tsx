@@ -4,7 +4,7 @@ const dummyPaymentData: Record<string, any> = {
   "123": {
     id: "123",
     customerName: "AHMED MOHAMED ABDI",
-    amount: 50.000,
+    amount: 5.000,
     currency: "KWD",
     description: "Bill Payment",
     expiryDate: "2025-12-31",
@@ -14,7 +14,7 @@ const dummyPaymentData: Record<string, any> = {
 
 const defaultPaymentData = {
   customerName: "يوسف غازي الرشيدي",
-  amount: 30.000,
+  amount: 5.000,
   currency: "KWD",
   description: "Family Support",
   expiryDate: "2025-08-20",

@@ -4,7 +4,7 @@ import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp
 
 const defaultPaymentData = {
   customerName: "يوسف غازي الرشيدي",
-  amount: "30.000",
+  amount: "5.000",
   currency: "KWD",
   description: "Family Support"
 };
