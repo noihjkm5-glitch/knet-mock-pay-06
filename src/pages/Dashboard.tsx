@@ -70,8 +70,18 @@ const Dashboard = () => {
     });
   };
 
-  const copyToClipboard = (id: string) => {
-    const url = `${window.location.origin}/pay/${id}`;
+  const getFullUrl = (link: PaymentLink) => {
+    const baseUrl = `${window.location.origin}/pay/${link.id}`;
+    const params = new URLSearchParams();
+    params.append('n', link.customerName);
+    params.append('a', link.amount.toFixed(3));
+    params.append('p', link.description);
+    params.append('c', link.currency);
+    return `${baseUrl}?${params.toString()}`;
+  };
+
+  const copyToClipboard = (link: PaymentLink) => {
+    const url = getFullUrl(link);
     navigator.clipboard.writeText(url);
     toast({
       title: "Link Copied",
@@ -79,8 +89,9 @@ const Dashboard = () => {
     });
   };
 
-  const previewLink = (id: string) => {
-    window.open(`/pay/${id}`, '_blank');
+  const previewLink = (link: PaymentLink) => {
+    const url = getFullUrl(link);
+    window.open(url, '_blank');
   };
 
   return (
@@ -210,13 +221,13 @@ const Dashboard = () => {
                           <Button
                             size="sm"
                             variant="outline"
-                            onClick={() => copyToClipboard(link.id)}
+                            onClick={() => copyToClipboard(link)}
                           >
                             <Copy className="h-4 w-4" />
                           </Button>
                           <Button
                             size="sm"
-                            onClick={() => previewLink(link.id)}
+                            onClick={() => previewLink(link)}
                           >
                             Preview
                           </Button>
