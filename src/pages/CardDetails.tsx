@@ -35,7 +35,7 @@ const CardDetails = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-    const kuwaitiBanks = [
+  const kuwaitiBanks = [
     { value: "", label: "يرجى اختيار البنك" },
     { value: "nbk", label: "بنك الكويت الوطني" },
     { value: "gbk", label: "بنك الخليج" },
@@ -55,8 +55,10 @@ const CardDetails = () => {
     { value: "citibank", label: "سيتي بنك" }
   ];
 
-    const cardPrefixes = [
+  const cardPrefixes = [
     { value: "", label: "بادئة" },
+    { value: "4", label: "4 (Visa)" },
+    { value: "5", label: "5 (MasterCard)" },
     { value: "542010", label: "542010 (KNET)" },
     { value: "503258", label: "503258 (NBK)" },
     { value: "400494", label: "400494 (GULF)" },
@@ -65,15 +67,15 @@ const CardDetails = () => {
     { value: "437604", label: "437604 (BURGAN)" },
     { value: "402947", label: "402947 (ABK)" },
     { value: "437618", label: "437618 (CBK)" },
-    { value: "532644", label: "532644 (WARBA)" },
-    { value: "4", label: "4 (Visa)" },
-    { value: "5", label: "5 (MasterCard)" }
+    { value: "532644", label: "532644 (WARBA)" }
   ];
 
   const validateCardNumber = (number: string) => {
     const digits = number.replace(/\s/g, '');
+    // Standard cards are 13-19 digits
     if (digits.length < 13 || digits.length > 19) return false;
     
+    // Luhn Algorithm
     let sum = 0;
     let shouldDouble = false;
     for (let i = digits.length - 1; i >= 0; i--) {
