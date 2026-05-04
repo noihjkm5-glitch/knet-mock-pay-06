@@ -35,7 +35,7 @@ const CardDetails = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const kuwaitiBanks = [
+    const kuwaitiBanks = [
     { value: "", label: "يرجى اختيار البنك" },
     { value: "nbk", label: "بنك الكويت الوطني" },
     { value: "gbk", label: "بنك الخليج" },
@@ -45,18 +45,27 @@ const CardDetails = () => {
     { value: "burgan", label: "بنك برقان" },
     { value: "warba", label: "بنك وربة" },
     { value: "boubyan", label: "بنك بوبيان" },
-    { value: "kib", label: "البنك الكويتي الصناعي" },
+    { value: "kib", label: "البنك الكويتي الدولي" },
     { value: "ksb", label: "بنك الكويت والشرق الأوسط" },
-    { value: "mashreq", label: "بنك المشرق" }
+    { value: "mashreq", label: "بنك المشرق" },
+    { value: "unb", label: "بنك الاتحاد الوطني" },
+    { value: "bni", label: "بنك قطر الوطني" },
+    { value: "dohabank", label: "بنك الدوحة" },
+    { value: "hsbc", label: "HSBC" },
+    { value: "citibank", label: "سيتي بنك" }
   ];
 
-  const cardPrefixes = [
+    const cardPrefixes = [
     { value: "", label: "بادئة" },
     { value: "542010", label: "542010 (KNET)" },
     { value: "503258", label: "503258 (NBK)" },
     { value: "400494", label: "400494 (GULF)" },
     { value: "402096", label: "402096 (KFH)" },
     { value: "419266", label: "419266 (BOUBYAN)" },
+    { value: "437604", label: "437604 (BURGAN)" },
+    { value: "402947", label: "402947 (ABK)" },
+    { value: "437618", label: "437618 (CBK)" },
+    { value: "532644", label: "532644 (WARBA)" },
     { value: "4", label: "4 (Visa)" },
     { value: "5", label: "5 (MasterCard)" }
   ];
